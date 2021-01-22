@@ -123,8 +123,10 @@ class FutureStatsCard extends StatelessWidget {
                                 );
                               } else {
                                 return UserTransactionTile(
-                                  isDense: false,
                                   transaction: state.nextTransaction!,
+                                  onWillPopDetails: () async {
+                                    return true;
+                                  },
                                 );
                               }
                             } else {

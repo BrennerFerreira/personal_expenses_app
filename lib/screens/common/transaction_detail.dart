@@ -10,143 +10,148 @@ import 'package:personal_expenses/screens/transaction_form_screen/transaction_fo
 
 class UserTransactionDetail extends StatelessWidget {
   final UserTransaction transaction;
+  final Future<bool> Function() onWillPop;
 
   const UserTransactionDetail({
     Key? key,
     required this.transaction,
+    required this.onWillPop,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
-      ),
-      backgroundColor: Theme.of(context).primaryColor,
-      title: Text(transaction.title),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            UserTransactionDetailInfo(
-              boldText: "Conta:",
-              normalText: transaction.account,
-            ),
-            UserTransactionDetailInfo(
-              boldText: "Tipo da transação:",
-              normalText: transaction.isIncome ? "Receita" : "Despesa",
-            ),
-            UserTransactionDetailInfo(
-              boldText: "Data da transação:",
-              normalText: DateFormat(
-                DateFormat.YEAR_MONTH_DAY,
-                "pt-BR",
-              ).format(transaction.date),
-            ),
-            UserTransactionDetailInfo(
-              boldText: "Criada em:",
-              normalText: DateFormat(
-                DateFormat.YEAR_MONTH_DAY,
-                "pt-BR",
-              ).format(transaction.savedAt),
-            ),
-            UserTransactionDetailInfo(
-              boldText: "Valor:",
-              normalText:
-                  "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
         ),
-      ),
-      actions: [
-        FlatButton(
-          onPressed: Navigator.of(context).pop,
-          child: Text(
-            "Voltar",
-            style: TextStyle(
-              color: Theme.of(context).accentColor,
-            ),
-          ),
-        ),
-        FlatButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: (context) => UserTransactionForm(
-                transaction: transaction,
-                isNew: false,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: Text(transaction.title),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              UserTransactionDetailInfo(
+                boldText: "Conta:",
+                normalText: transaction.account,
               ),
-            );
-          },
-          child: Text(
-            "Editar",
-            style: TextStyle(
-              color: Theme.of(context).accentColor,
-            ),
+              UserTransactionDetailInfo(
+                boldText: "Tipo da transação:",
+                normalText: transaction.isIncome ? "Receita" : "Despesa",
+              ),
+              UserTransactionDetailInfo(
+                boldText: "Data da transação:",
+                normalText: DateFormat(
+                  DateFormat.YEAR_MONTH_DAY,
+                  "pt-BR",
+                ).format(transaction.date),
+              ),
+              UserTransactionDetailInfo(
+                boldText: "Criada em:",
+                normalText: DateFormat(
+                  DateFormat.YEAR_MONTH_DAY,
+                  "pt-BR",
+                ).format(transaction.savedAt),
+              ),
+              UserTransactionDetailInfo(
+                boldText: "Valor:",
+                normalText:
+                    "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
+              ),
+            ],
           ),
         ),
-        FlatButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  backgroundColor: Theme.of(context).primaryColor,
-                  title: Text(
-                    "Excluir transação",
-                    style: TextStyle(
-                      color: Theme.of(context).errorColor,
+        actions: [
+          FlatButton(
+            onPressed: Navigator.of(context).pop,
+            child: Text(
+              "Voltar",
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
+          FlatButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: (context) => UserTransactionForm(
+                  transaction: transaction,
+                  isNew: false,
+                ),
+              );
+            },
+            child: Text(
+              "Editar",
+              style: TextStyle(
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+          ),
+          FlatButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                  ),
-                  content: const Text(
-                      "Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita."),
-                  actions: [
-                    FlatButton(
-                      onPressed: Navigator.of(context).pop,
-                      child: Text(
-                        "Cancelar",
-                        style: TextStyle(
-                          color: Theme.of(context).accentColor,
-                        ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    title: Text(
+                      "Excluir transação",
+                      style: TextStyle(
+                        color: Theme.of(context).errorColor,
                       ),
                     ),
-                    BlocProvider(
-                      create: (context) => TransactionBloc(),
-                      child: FlatButton(
-                        onPressed: () {
-                          TransactionBloc()
-                              .add(TransactionDeleted(transaction));
-                          UpdateHomeScreen().updateHome(context);
-                          Navigator.of(context).pop();
-                          Navigator.of(context).pop();
-                        },
+                    content: const Text(
+                        "Tem certeza que deseja excluir esta transação? Esta ação não pode ser desfeita."),
+                    actions: [
+                      FlatButton(
+                        onPressed: Navigator.of(context).pop,
                         child: Text(
-                          "Excluir",
+                          "Cancelar",
                           style: TextStyle(
-                            color: Theme.of(context).errorColor,
+                            color: Theme.of(context).accentColor,
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
-            );
-          },
-          child: Text(
-            "Excluir",
-            style: TextStyle(
-              color: Theme.of(context).errorColor,
+                      BlocProvider(
+                        create: (context) => TransactionBloc(),
+                        child: FlatButton(
+                          onPressed: () {
+                            TransactionBloc()
+                                .add(TransactionDeleted(transaction));
+                            UpdateHomeScreen().updateHome(context);
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            "Excluir",
+                            style: TextStyle(
+                              color: Theme.of(context).errorColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            child: Text(
+              "Excluir",
+              style: TextStyle(
+                color: Theme.of(context).errorColor,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

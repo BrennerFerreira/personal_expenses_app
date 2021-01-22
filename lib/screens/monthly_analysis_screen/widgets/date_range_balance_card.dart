@@ -89,9 +89,14 @@ class DateRangeBalanceCard extends StatelessWidget {
                 ),
               ),
             if (highestIncome != null)
-              UserTransactionTile(
-                transaction: highestIncome!,
-                elevation: 0,
+              IgnorePointer(
+                child: UserTransactionTile(
+                  transaction: highestIncome!,
+                  elevation: 0,
+                  onWillPopDetails: () async {
+                    return true;
+                  },
+                ),
               ),
             if (highestOutcome != null) const SizedBox(height: 10),
             if (highestOutcome != null)
@@ -104,9 +109,14 @@ class DateRangeBalanceCard extends StatelessWidget {
                 ),
               ),
             if (highestOutcome != null)
-              UserTransactionTile(
-                transaction: highestOutcome!,
-                elevation: 0,
+              IgnorePointer(
+                child: UserTransactionTile(
+                  transaction: highestOutcome!,
+                  elevation: 0,
+                  onWillPopDetails: () async {
+                    return true;
+                  },
+                ),
               ),
           ],
         ),

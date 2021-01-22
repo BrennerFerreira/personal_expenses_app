@@ -79,8 +79,10 @@ class HomeCard extends StatelessWidget {
                               );
                             } else {
                               return UserTransactionTile(
-                                isDense: false,
                                 transaction: state.lastTransaction!,
+                                onWillPopDetails: () async {
+                                  return true;
+                                },
                               );
                             }
                           } else {

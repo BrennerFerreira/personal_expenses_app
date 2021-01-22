@@ -40,9 +40,8 @@ class FilteredTransactionsBloc
 
   Stream<FilteredTransactionsState> _mapFilteredTransactionsUpdatedToState(
       FilteredTransactionsEvent event) async* {
-    final visibilityFilter = state is FilteredTransactionsLoadSuccess
-        ? (state as FilteredTransactionsLoadSuccess).activeFilter
-        : VisibilityFilter.lastSevenDays;
+    final visibilityFilter =
+        (state as FilteredTransactionsLoadSuccess).activeFilter;
     final List<UserTransaction> transactionList =
         await _mapTransactionsToFilter(visibilityFilter);
     yield FilteredTransactionsLoadSuccess(

@@ -31,6 +31,9 @@ class UserTransactionList extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return UserTransactionTile(
                         transaction: transactionList[index],
+                        onWillPopDetails: () async {
+                          return true;
+                        },
                       );
                     },
                   );

@@ -81,15 +81,25 @@ class FutureTransactionsBalanceCard extends StatelessWidget {
             if (highestIncome != null) const SizedBox(height: 20),
             if (highestIncome != null) const Text("Maior receita futura:"),
             if (highestIncome != null)
-              UserTransactionTile(
-                transaction: highestIncome!,
-                elevation: 0,
+              IgnorePointer(
+                child: UserTransactionTile(
+                  transaction: highestIncome!,
+                  elevation: 0,
+                  onWillPopDetails: () async {
+                    return true;
+                  },
+                ),
               ),
             if (highestOutcome != null) const SizedBox(height: 20),
             if (highestOutcome != null) const Text("Maior despesa futura:"),
             if (highestOutcome != null)
-              UserTransactionTile(
-                transaction: highestOutcome!,
+              IgnorePointer(
+                child: UserTransactionTile(
+                  transaction: highestOutcome!,
+                  onWillPopDetails: () async {
+                    return true;
+                  },
+                ),
               ),
           ],
         ),

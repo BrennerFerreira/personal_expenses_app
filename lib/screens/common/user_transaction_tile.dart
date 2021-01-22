@@ -10,10 +10,10 @@ import 'package:personal_expenses/screens/common/transaction_detail.dart';
 class UserTransactionTile extends StatelessWidget {
   final UserTransaction transaction;
   final double? elevation;
-  final bool isDense;
+  final Future<bool> Function() onWillPopDetails;
   const UserTransactionTile({
     required this.transaction,
-    this.isDense = true,
+    required this.onWillPopDetails,
     this.elevation,
   });
 
@@ -21,7 +21,6 @@ class UserTransactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return ListTile(
-      dense: isDense,
       leading: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -64,6 +63,7 @@ class UserTransactionTile extends StatelessWidget {
           context: context,
           builder: (context) => UserTransactionDetail(
             transaction: transaction,
+            onWillPop: onWillPopDetails,
           ),
         );
         if (transactionEdited != null) {

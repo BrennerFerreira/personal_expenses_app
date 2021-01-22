@@ -10,7 +10,10 @@ class UpdateHomeScreen {
       const GlobalStatsUpdated(),
     );
 
-    BlocProvider.of<FilteredTransactionsBloc>(context).add(
+    BlocProvider.of<FilteredTransactionsBloc>(
+      context,
+      listen: false,
+    ).add(
       const FilterUpdated(
         VisibilityFilter.lastSevenDays,
       ),

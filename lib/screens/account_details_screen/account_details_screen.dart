@@ -118,6 +118,21 @@ class AccountDetailsScreen extends StatelessWidget {
                               return AccountTransactionList(
                                 transactionList:
                                     state.accountFilteredTransactions,
+                                onWillPop: () async {
+                                  BlocProvider.of<
+                                      AccountFilteredTransactionsBloc>(
+                                    context,
+                                  ).add(
+                                    AccountFilterUpdated(account),
+                                  );
+                                  BlocProvider.of<AccountStatsBloc>(context)
+                                      .add(
+                                    AccountStatsUpdated(
+                                      account,
+                                    ),
+                                  );
+                                  return true;
+                                },
                               );
                             } else {
                               return Container();

@@ -15,11 +15,12 @@ class AccountStatsLoadSuccess extends AccountStatsState {
   final double lastThirtyDaysOutcome;
   final String account;
 
-  const AccountStatsLoadSuccess(
-      {required this.totalBalance,
-      required this.lastThirtyDaysIncome,
-      required this.lastThirtyDaysOutcome,
-      required this.account});
+  const AccountStatsLoadSuccess({
+    required this.totalBalance,
+    required this.lastThirtyDaysIncome,
+    required this.lastThirtyDaysOutcome,
+    required this.account,
+  });
 
   @override
   List<Object> get props => [
