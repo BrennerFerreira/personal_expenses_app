@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:personal_expenses/blocs/blocs.dart';
+import 'package:personal_expenses/blocs/old_blocs/blocs.dart';
 import 'package:personal_expenses/screens/home_screen/widgets/blurred_container.dart';
 import 'package:personal_expenses/screens/monthly_analysis_screen/monthly_analysis_screen.dart';
 

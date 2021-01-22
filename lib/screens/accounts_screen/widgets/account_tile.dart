@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/blocs.dart';
+import 'package:personal_expenses/blocs/old_blocs/blocs.dart';
 import 'package:personal_expenses/screens/account_details_screen/account_details_screen.dart';
 import 'package:personal_expenses/screens/common/balance_card.dart';
 
