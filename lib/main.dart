@@ -75,6 +75,7 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color(0xFF4B20C5),
         accentColor: const Color(0xFF6CEDFE),
         backgroundColor: const Color(0xFF4B20C5),
+        canvasColor: Colors.transparent,
         errorColor: const Color(0xFFFD5200),
         brightness: Brightness.dark,
         appBarTheme: const AppBarTheme(
