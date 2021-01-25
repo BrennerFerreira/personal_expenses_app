@@ -17,7 +17,7 @@ class GlobalStatsBloc extends Bloc<GlobalStatsEvent, GlobalStatsState> {
     GlobalStatsEvent event,
   ) async* {
     if (event is GlobalStatsUpdated) {
-      final balanceMap = await globalStatsRepository.lastThirtyDaysBalance();
+      final balanceMap = await globalStatsRepository.totalBalance();
       yield GlobalStatsLoadSuccess(
         totalBalance: balanceMap['totalBalance'] as double,
         lastThirtyDaysIncome: balanceMap['totalIncome'] as double,

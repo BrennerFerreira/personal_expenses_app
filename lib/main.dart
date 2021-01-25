@@ -2,11 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:personal_expenses/blocs/old_blocs/blocs.dart';
 import 'package:personal_expenses/blocs/custom_bloc_observer.dart';
 import 'package:personal_expenses/blocs/transaction_form/transaction_form_bloc.dart';
-import 'package:personal_expenses/models/visibility_filter.dart';
-import 'package:personal_expenses/screens/home_screen/home_screen.dart';
 import 'package:personal_expenses/theme/calendar_primary_pallete.dart';
 
 import 'pages/home_page/home_page.dart';

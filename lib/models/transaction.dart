@@ -6,15 +6,15 @@ class UserTransaction extends Equatable {
   int? id;
   String title;
   String account;
+  double price;
+  bool isIncome;
+  DateTime date;
   bool isInstallment;
   int numberOfInstallments;
   String? installmentId;
   bool isBetweenAccounts;
   String? betweenAccountsId;
-  DateTime date;
   DateTime savedAt;
-  bool isIncome;
-  double price;
 
   UserTransaction({
     this.id,

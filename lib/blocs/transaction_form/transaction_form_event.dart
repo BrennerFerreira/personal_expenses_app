@@ -10,15 +10,30 @@ abstract class TransactionFormEvent extends Equatable {
 class AddTransaction extends TransactionFormEvent {}
 
 class EditTransaction extends TransactionFormEvent {
-  final UserTransaction transaction;
+  final UserTransaction originTransaction;
+  final UserTransaction? destinationTransaction;
 
-  const EditTransaction({required this.transaction});
+  const EditTransaction({
+    required this.originTransaction,
+    this.destinationTransaction,
+  });
 
   @override
-  List<Object?> get props => [transaction];
+  List<Object?> get props => [
+        originTransaction,
+        destinationTransaction,
+      ];
 
   @override
-  String toString() => 'EditTransaction(transaction: $transaction)';
+  String toString() =>
+      'EditTransaction(originTransaction: $originTransaction, destinationTransaction: $destinationTransaction)';
+}
+
+class FormCanceled extends TransactionFormEvent {
+  const FormCanceled() : super();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class TitleChanged extends TransactionFormEvent {
@@ -33,15 +48,15 @@ class TitleChanged extends TransactionFormEvent {
   String toString() => 'TitleChanged(newTitle: $newTitle)';
 }
 
-class InvertNewAccountValue extends TransactionFormEvent {
+class NewAccountChanged extends TransactionFormEvent {
   final bool newOption;
-  const InvertNewAccountValue({required this.newOption});
+  const NewAccountChanged({required this.newOption});
 
   @override
   List<Object?> get props => [newOption];
 
   @override
-  String toString() => 'InvertNewAccountValue(newOption: $newOption)';
+  String toString() => 'NewAccountChanged(newOption: $newOption)';
 }
 
 class AccountChanged extends TransactionFormEvent {
@@ -66,6 +81,56 @@ class PriceChanged extends TransactionFormEvent {
 
   @override
   String toString() => 'PriceChanged(newPrice: $newPrice)';
+}
+
+class IsIncomeChanged extends TransactionFormEvent {
+  final bool newIsIncome;
+
+  const IsIncomeChanged({required this.newIsIncome});
+
+  @override
+  List<Object?> get props => [newIsIncome];
+
+  @override
+  String toString() => 'IsIncomeChanged(newIsIncome: $newIsIncome)';
+}
+
+class DateChanged extends TransactionFormEvent {
+  final DateTime newDate;
+
+  const DateChanged({required this.newDate});
+
+  @override
+  List<Object?> get props => [newDate];
+
+  @override
+  String toString() => 'DateChanged(newDate: $newDate)';
+}
+
+class IsInstallmentsChanged extends TransactionFormEvent {
+  final bool newIsInstallments;
+
+  const IsInstallmentsChanged({required this.newIsInstallments});
+
+  @override
+  List<Object?> get props => [newIsInstallments];
+
+  @override
+  String toString() =>
+      'IsInstallmentsChanged(newIsInstallments: $newIsInstallments)';
+}
+
+class NumberOfInstallmentsChanged extends TransactionFormEvent {
+  final String newNumberOfInstallments;
+
+  const NumberOfInstallmentsChanged({required this.newNumberOfInstallments});
+
+  @override
+  List<Object?> get props => [newNumberOfInstallments];
+
+  @override
+  String toString() =>
+      'NumberOfInstallmentsChanged(newNumberOfInstallments: $newNumberOfInstallments)';
 }
 
 class FormSubmitted extends TransactionFormEvent {

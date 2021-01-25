@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/blocs/transaction_form/transaction_form_bloc.dart';
 import 'package:personal_expenses/pages/common/common_scaffold.dart';
 import 'package:personal_expenses/pages/home_page/widgets/date_range_card.dart';
 import 'package:personal_expenses/pages/home_page/widgets/future_transactions_card.dart';
@@ -29,12 +28,7 @@ class HomePage extends StatelessWidget {
                 top: Radius.circular(30),
               ),
             ),
-            builder: (context) {
-              BlocProvider.of<TransactionFormBloc>(context).add(
-                AddTransaction(),
-              );
-              return UserTransactionFormPage();
-            },
+            builder: (context) => const UserTransactionFormPage(),
           );
         },
       ),

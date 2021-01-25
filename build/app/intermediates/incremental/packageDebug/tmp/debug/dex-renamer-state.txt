@@ -1,4 +1,4 @@
-#Sat Jan 23 16:11:39 BRT 2021
+#Mon Jan 25 14:09:48 BRT 2021
 base.0=/home/brenner/mobile-development/personal-projects/personal_expenses/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

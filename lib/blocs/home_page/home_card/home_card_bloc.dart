@@ -20,13 +20,20 @@ class HomeCardBloc extends Bloc<HomeCardEvent, HomeCardState> {
     HomeCardEvent event,
   ) async* {
     if (event is UpdateHomeCard) {
-      final Map<String, double> balanceMap =
-          await globalStatsRepository.lastThirtyDaysBalance();
-      final double balance = balanceMap["totalBalance"] as double;
+      final Map<String, double> totalBalanceMap =
+          await globalStatsRepository.totalBalance();
+      final double totalBalance = totalBalanceMap["totalBalance"] as double;
+
+      final Map<String, double> pastBalanceMap =
+          await globalStatsRepository.pastBalance();
+      final double pastBalance = pastBalanceMap["totalBalance"] as double;
+
       final UserTransaction? lastTransaction =
           await transactionRepository.getLastTransaction();
+
       yield HomeCardLoadSuccess(
-        balance: balance,
+        totalBalance: totalBalance,
+        pastBalance: pastBalance,
         lastTransaction: lastTransaction,
       );
     }

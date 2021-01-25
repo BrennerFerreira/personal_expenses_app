@@ -10,21 +10,24 @@ abstract class HomeCardState extends Equatable {
 class HomeCardLoadInProgress extends HomeCardState {}
 
 class HomeCardLoadSuccess extends HomeCardState {
-  final double balance;
+  final double totalBalance;
+  final double pastBalance;
   final UserTransaction? lastTransaction;
 
   const HomeCardLoadSuccess({
-    required this.balance,
+    required this.totalBalance,
+    required this.pastBalance,
     required this.lastTransaction,
   });
 
   @override
   List<Object?> get props => [
-        balance,
+        totalBalance,
+        pastBalance,
         lastTransaction,
       ];
 
   @override
   String toString() =>
-      'HomeCardLoadSuccess(balance: $balance, lastTransaction: $lastTransaction)';
+      'HomeCardLoadSuccess(totalBalance: $totalBalance, pastBalance: $pastBalance, lastTransaction: $lastTransaction)';
 }
