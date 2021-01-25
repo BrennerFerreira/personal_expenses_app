@@ -52,7 +52,7 @@ class _HomeCardState extends State<HomeCard> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        "Saldo futuro:",
+                        "Saldo com as transações agendadas:",
                         textAlign: TextAlign.center,
                       ),
                       Text(

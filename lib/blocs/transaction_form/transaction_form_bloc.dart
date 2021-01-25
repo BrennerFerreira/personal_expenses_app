@@ -82,6 +82,8 @@ class TransactionFormBloc
     } else if (event is IsInstallmentsChanged) {
       yield state.copyWith(
         isInstallments: event.newIsInstallments,
+        numberOfInstallments: 1,
+        numberOfInstallmentsError: "",
       );
     } else if (event is NumberOfInstallmentsChanged) {
       final int newNumberOfInstallments =

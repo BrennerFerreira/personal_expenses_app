@@ -50,109 +50,118 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
           );
         }
       },
-      child: Container(
-        height: MediaQuery.of(context).size.height * 0.9,
-        color: Colors.transparent,
-        child: ClipRRect(
-          borderRadius: const BorderRadius.vertical(
-            top: Radius.circular(30),
-          ),
-          child: Scaffold(
-            appBar: AppBar(
-              leading: Padding(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.015,
-                ),
-                child: BlocBuilder<TransactionFormBloc, TransactionFormState>(
-                  builder: (context, state) {
-                    if (state.isLoading) {
-                      return const IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          size: 35,
-                        ),
-                        onPressed: null,
-                      );
-                    } else {
-                      return IconButton(
-                        icon: const Icon(
-                          Icons.close,
-                          size: 35,
-                        ),
-                        onPressed: () {
-                          BlocProvider.of<TransactionFormBloc>(context).add(
-                            const FormCanceled(),
-                          );
-                          Navigator.of(context).pop();
-                        },
-                      );
-                    }
-                  },
-                ),
-              ),
-              actions: [
-                Padding(
+      child: WillPopScope(
+        onWillPop: () async {
+          BlocProvider.of<TransactionFormBloc>(context).add(
+            const FormCanceled(),
+          );
+          return true;
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.9,
+          color: Colors.transparent,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(30),
+            ),
+            child: Scaffold(
+              appBar: AppBar(
+                leading: Padding(
                   padding: EdgeInsets.only(
-                    right: MediaQuery.of(context).size.width * 0.025,
+                    left: MediaQuery.of(context).size.width * 0.015,
                   ),
                   child: BlocBuilder<TransactionFormBloc, TransactionFormState>(
                     builder: (context, state) {
                       if (state.isLoading) {
                         return const IconButton(
                           icon: Icon(
-                            Icons.check,
+                            Icons.close,
                             size: 35,
                           ),
                           onPressed: null,
                         );
-                      } else if (state is TransactionFormState) {
+                      } else {
                         return IconButton(
                           icon: const Icon(
-                            Icons.check,
+                            Icons.close,
                             size: 35,
                           ),
                           onPressed: () {
-                            BlocProvider.of<TransactionFormBloc>(context)
-                                .add(const FormSubmitted());
+                            BlocProvider.of<TransactionFormBloc>(context).add(
+                              const FormCanceled(),
+                            );
+                            Navigator.of(context).pop();
                           },
                         );
-                      } else {
-                        return Container();
                       }
                     },
                   ),
                 ),
-              ],
-            ),
-            body: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.025,
-                vertical: MediaQuery.of(context).size.height * 0.01,
-              ),
-              child: BlocBuilder<TransactionFormBloc, TransactionFormState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return CommonCircularIndicator();
-                  } else {
-                    return Form(
-                      key: UserTransactionFormPage._formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Nova transação",
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
+                actions: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.025,
+                    ),
+                    child:
+                        BlocBuilder<TransactionFormBloc, TransactionFormState>(
+                      builder: (context, state) {
+                        if (state.isLoading) {
+                          return const IconButton(
+                            icon: Icon(
+                              Icons.check,
+                              size: 35,
                             ),
-                          ),
-                          NormalForm(),
-                        ],
-                      ),
-                    );
-                  }
-                },
+                            onPressed: null,
+                          );
+                        } else if (state is TransactionFormState) {
+                          return IconButton(
+                            icon: const Icon(
+                              Icons.check,
+                              size: 35,
+                            ),
+                            onPressed: () {
+                              BlocProvider.of<TransactionFormBloc>(context)
+                                  .add(const FormSubmitted());
+                            },
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              body: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.025,
+                  vertical: MediaQuery.of(context).size.height * 0.01,
+                ),
+                child: BlocBuilder<TransactionFormBloc, TransactionFormState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return CommonCircularIndicator();
+                    } else {
+                      return Form(
+                        key: UserTransactionFormPage._formKey,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "Nova transação",
+                              style: TextStyle(
+                                fontSize: 40,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            NormalForm(),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
           ),

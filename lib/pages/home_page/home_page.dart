@@ -17,21 +17,23 @@ class HomePage extends StatelessWidget {
     return CommonScaffold(
       isHomePage: true,
       title: "Início",
-      actionButton: IconButton(
-        icon: const Icon(Icons.add, size: 35),
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(30),
+      actionButtons: [
+        IconButton(
+          icon: const Icon(Icons.add, size: 35),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
               ),
-            ),
-            builder: (context) => const UserTransactionFormPage(),
-          );
-        },
-      ),
+              builder: (context) => const UserTransactionFormPage(),
+            );
+          },
+        ),
+      ],
       children: [
         Center(
           child: SizedBox(

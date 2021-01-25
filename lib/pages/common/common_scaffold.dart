@@ -4,25 +4,31 @@ class CommonScaffold extends StatelessWidget {
   final String title;
   final List<Widget> children;
   final bool isHomePage;
-  final IconButton? actionButton;
+  final Widget? leadingButton;
+  final List<Widget>? actionButtons;
   const CommonScaffold({
     Key? key,
     required this.title,
     required this.children,
-    this.actionButton,
+    this.leadingButton,
+    this.actionButtons,
     this.isHomePage = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: leadingButton,
         actions: [
-          if (actionButton != null)
+          if (actionButtons != null)
             Padding(
               padding: EdgeInsets.only(
                 right: MediaQuery.of(context).size.width * 0.035,
               ),
-              child: actionButton!,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: actionButtons!,
+              ),
             ),
         ],
       ),

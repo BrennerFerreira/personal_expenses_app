@@ -10,45 +10,60 @@ class InstallmentsField extends StatelessWidget {
       builder: (context, state) {
         return Row(
           children: [
-            Checkbox(
-              value: state.isInstallments,
-              onChanged: (newIsInstallments) {
-                BlocProvider.of<TransactionFormBloc>(context).add(
-                  IsInstallmentsChanged(
-                    newIsInstallments: newIsInstallments!,
+            Expanded(
+              child: CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.leading,
+                title: Text(
+                  "Parcelas",
+                  style: TextStyle(
+                    color: state.isNew ? null : Theme.of(context).disabledColor,
                   ),
-                );
-              },
-            ),
-            const SizedBox(width: 5),
-            const Expanded(
-              child: Text("Parcelas"),
+                ),
+                contentPadding: EdgeInsets.zero,
+                value: state.isInstallments,
+                onChanged: state.isNew
+                    ? (newIsInstallments) {
+                        BlocProvider.of<TransactionFormBloc>(context).add(
+                          IsInstallmentsChanged(
+                            newIsInstallments: newIsInstallments!,
+                          ),
+                        );
+                      }
+                    : null,
+              ),
             ),
             Expanded(
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 300),
                 opacity: state.isInstallments ? 1.0 : 0.0,
-                child: TextFormField(
-                  enabled: state.isInstallments,
-                  decoration: InputDecoration(
-                    labelText: "Número de parcelas",
-                    isDense: true,
-                    errorText: state.numberOfInstallmentsError,
-                    errorMaxLines: 3,
-                  ),
-                  initialValue: "1",
-                  keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                  ],
-                  onChanged: (newNumberOfInstallments) {
-                    BlocProvider.of<TransactionFormBloc>(context).add(
-                      NumberOfInstallmentsChanged(
-                        newNumberOfInstallments: newNumberOfInstallments,
-                      ),
-                    );
-                  },
-                ),
+                child: state.isInstallments
+                    ? TextFormField(
+                        enabled: state.isNew || state.isInstallments,
+                        style: TextStyle(
+                          color: state.isNew
+                              ? null
+                              : Theme.of(context).disabledColor,
+                        ),
+                        decoration: InputDecoration(
+                          labelText: "Número de parcelas",
+                          isDense: true,
+                          errorText: state.numberOfInstallmentsError,
+                          errorMaxLines: 3,
+                        ),
+                        initialValue: state.numberOfInstallments.toString(),
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                        onChanged: (newNumberOfInstallments) {
+                          BlocProvider.of<TransactionFormBloc>(context).add(
+                            NumberOfInstallmentsChanged(
+                              newNumberOfInstallments: newNumberOfInstallments,
+                            ),
+                          );
+                        },
+                      )
+                    : Container(),
               ),
             ),
           ],

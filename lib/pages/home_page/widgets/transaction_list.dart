@@ -5,7 +5,9 @@ import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
 import 'package:personal_expenses/pages/common/common_error_text.dart';
 import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
+import 'package:personal_expenses/pages/home_page/home_page.dart';
 import 'package:personal_expenses/pages/home_page/widgets/custom_dropdown_menu.dart';
+import 'package:personal_expenses/pages/transaction_details_page/transaction_detail_page.dart';
 
 class TransactionList extends StatefulWidget {
   @override
@@ -51,9 +53,24 @@ class _TransactionListState extends State<TransactionList> {
                             shrinkWrap: true,
                             itemCount: state.filteredTransactions.length,
                             itemBuilder: (context, index) {
-                              return UserTransactionTile(
-                                  transaction:
-                                      state.filteredTransactions[index]);
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (_) => TransactionDetailsPage(
+                                        transaction:
+                                            state.filteredTransactions[index],
+                                        lastPage: MaterialPageRoute(
+                                          builder: (_) => HomePage(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: UserTransactionTile(
+                                    transaction:
+                                        state.filteredTransactions[index]),
+                              );
                             },
                           ),
                   ),
