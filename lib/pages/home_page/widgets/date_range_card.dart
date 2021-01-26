@@ -4,7 +4,6 @@ import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
 import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
 import 'package:personal_expenses/pages/date_range_page/date_range_page.dart';
 
 class DateRangeTransactionsCard extends StatefulWidget {

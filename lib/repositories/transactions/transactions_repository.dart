@@ -153,7 +153,6 @@ class TransactionRepository {
       "ORDER BY $DATE_COLUMN ASC "
       "LIMIT 1",
     );
-    print(transactionListMap);
     if (transactionListMap.isEmpty) {
       return null;
     } else {
