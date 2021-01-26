@@ -153,7 +153,7 @@ class TransactionRepository {
       "ORDER BY $DATE_COLUMN ASC "
       "LIMIT 1",
     );
-    if (transactionListMap.isEmpty) {
+    if (transactionListMap.first[ID_COLUMN] == null) {
       return null;
     } else {
       return UserTransaction.fromMap(transactionListMap.first);

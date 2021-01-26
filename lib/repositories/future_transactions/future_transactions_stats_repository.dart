@@ -33,13 +33,20 @@ class FutureTransactionsStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
-      "WHERE ($IS_INCOME_COLUMN == 'true') AND ($DATE_COLUMN > $todayDate)",
+      "WHERE ($IS_INCOME_COLUMN == 'true') "
+      "AND ($DATE_COLUMN > $todayDate) "
+      "AND ($IS_BETWEEN_ACCOUNTS_COLUMN == 'false')",
     );
     final UserTransaction? highestIncomeTransaction =
-        highestIncome[0][ID_COLUMN] == null
+        highestIncome.first[ID_COLUMN] == null
             ? null
             : UserTransaction.fromMap(highestIncome.first);
 
@@ -50,10 +57,17 @@ class FutureTransactionsStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
-      "WHERE ($IS_INCOME_COLUMN == 'false') AND ($DATE_COLUMN > $todayDate)",
+      "WHERE ($IS_INCOME_COLUMN == 'false') "
+      "AND ($DATE_COLUMN > $todayDate) "
+      "AND ($IS_BETWEEN_ACCOUNTS_COLUMN == 'false')",
     );
 
     final UserTransaction? highestOutcomeTransaction =
