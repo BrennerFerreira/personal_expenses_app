@@ -36,6 +36,18 @@ class FormCanceled extends TransactionFormEvent {
   List<Object?> get props => [];
 }
 
+class EditAllInstallmentsChanged extends TransactionFormEvent {
+  final bool newEditAllInstallments;
+  const EditAllInstallmentsChanged({required this.newEditAllInstallments});
+
+  @override
+  List<Object?> get props => [newEditAllInstallments];
+
+  @override
+  String toString() =>
+      'EditAllInstallmentsChanged(newEditAllInstallments: $newEditAllInstallments)';
+}
+
 class TitleChanged extends TransactionFormEvent {
   final String newTitle;
 

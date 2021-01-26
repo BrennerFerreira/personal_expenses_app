@@ -40,13 +40,20 @@ class TransactionFormBloc
         account: event.originTransaction.isBetweenAccounts
             ? ""
             : event.originTransaction.account,
-        title: event.originTransaction.title,
+        title: event.originTransaction.title.replaceAll(
+          RegExp(r" - (\d+) de (\d+)$"),
+          "",
+        ),
         price: event.originTransaction.price,
         isIncome: event.originTransaction.isIncome,
         date: event.originTransaction.date,
         isInstallments: event.originTransaction.isInstallment,
         numberOfInstallments: event.originTransaction.numberOfInstallments,
         installmentsId: event.originTransaction.installmentId,
+      );
+    } else if (event is EditAllInstallmentsChanged) {
+      yield state.copyWith(
+        editAllInstallments: event.newEditAllInstallments,
       );
     } else if (event is TitleChanged) {
       yield state.copyWith(
@@ -123,6 +130,7 @@ class TransactionFormBloc
 
         if (state.isNew) {
           if (state.isInstallments) {
+            final int id = DateTime.now().millisecondsSinceEpoch;
             for (int i = 0; i < state.numberOfInstallments; i++) {
               if (DateTime(
                         state.date!.year,
@@ -151,7 +159,7 @@ class TransactionFormBloc
                     isInstallment: true,
                     numberOfInstallments: state.numberOfInstallments,
                     installmentId:
-                        "${state.title}-${DateTime.now()}-${state.numberOfInstallments}",
+                        "${state.title}-$id-${state.numberOfInstallments}",
                   ),
                 );
               } else {
@@ -171,7 +179,7 @@ class TransactionFormBloc
                     isInstallment: true,
                     numberOfInstallments: state.numberOfInstallments,
                     installmentId:
-                        "${state.title}-${DateTime.now()}-${state.numberOfInstallments}",
+                        "${state.title}-$id-${state.numberOfInstallments}",
                   ),
                 );
               }
@@ -189,20 +197,93 @@ class TransactionFormBloc
             );
           }
         } else {
-          await transactionRepository.updateTransaction(
-            UserTransaction(
-              id: state.id,
-              title: state.title,
-              account: state.account,
-              date: state.date!,
-              price: state.price,
-              savedAt: DateTime.now(),
-              isIncome: state.isIncome,
-              isInstallment: state.isInstallments,
-              numberOfInstallments: state.numberOfInstallments,
-              installmentId: state.installmentsId,
-            ),
-          );
+          if (state.editAllInstallments) {
+            await transactionRepository.deleteTransactionByInstallmentId(
+              state.installmentsId!,
+            );
+            if (state.isInstallments) {
+              final int id = DateTime.now().millisecondsSinceEpoch;
+              for (int i = 0; i < state.numberOfInstallments; i++) {
+                if (DateTime(
+                          state.date!.year,
+                          state.date!.month + i,
+                          state.date!.day,
+                        ).month -
+                        DateTime(
+                          state.date!.year,
+                          state.date!.month + i - 1,
+                          state.date!.day,
+                        ).month >
+                    1) {
+                  await transactionRepository.saveTransaction(
+                    UserTransaction(
+                      title:
+                          "${state.title} - ${i + 1} de ${state.numberOfInstallments}",
+                      account: state.account,
+                      date: DateTime(
+                        state.date!.year,
+                        state.date!.month + i + 1,
+                        0,
+                      ),
+                      price: state.price,
+                      savedAt: DateTime.now(),
+                      isIncome: state.isIncome,
+                      isInstallment: true,
+                      numberOfInstallments: state.numberOfInstallments,
+                      installmentId:
+                          "${state.title}-$id-${state.numberOfInstallments}",
+                    ),
+                  );
+                } else {
+                  await transactionRepository.saveTransaction(
+                    UserTransaction(
+                      title:
+                          "${state.title} - ${i + 1} de ${state.numberOfInstallments}",
+                      account: state.account,
+                      date: DateTime(
+                        state.date!.year,
+                        state.date!.month + i,
+                        state.date!.day,
+                      ),
+                      price: state.price,
+                      savedAt: DateTime.now(),
+                      isIncome: state.isIncome,
+                      isInstallment: true,
+                      numberOfInstallments: state.numberOfInstallments,
+                      installmentId:
+                          "${state.title}-$id-${state.numberOfInstallments}",
+                    ),
+                  );
+                }
+              }
+            } else {
+              await transactionRepository.saveTransaction(
+                UserTransaction(
+                  title: state.title,
+                  account: state.account,
+                  date: state.date!,
+                  price: state.price,
+                  savedAt: DateTime.now(),
+                  isIncome: state.isIncome,
+                ),
+              );
+            }
+          } else {
+            await transactionRepository.updateTransaction(
+              UserTransaction(
+                id: state.id,
+                title: state.title,
+                account: state.account,
+                date: state.date!,
+                price: state.price,
+                savedAt: DateTime.now(),
+                isIncome: state.isIncome,
+                isInstallment: state.isInstallments,
+                numberOfInstallments: state.numberOfInstallments,
+                installmentId: state.installmentsId,
+              ),
+            );
+          }
         }
         yield TransactionFormSuccess();
         yield TransactionFormState();

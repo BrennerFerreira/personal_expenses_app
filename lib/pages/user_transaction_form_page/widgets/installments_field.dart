@@ -16,12 +16,14 @@ class InstallmentsField extends StatelessWidget {
                 title: Text(
                   "Parcelas",
                   style: TextStyle(
-                    color: state.isNew ? null : Theme.of(context).disabledColor,
+                    color: state.isNew || state.editAllInstallments
+                        ? null
+                        : Theme.of(context).disabledColor,
                   ),
                 ),
                 contentPadding: EdgeInsets.zero,
                 value: state.isInstallments,
-                onChanged: state.isNew
+                onChanged: state.isNew || state.editAllInstallments
                     ? (newIsInstallments) {
                         BlocProvider.of<TransactionFormBloc>(context).add(
                           IsInstallmentsChanged(
@@ -38,9 +40,11 @@ class InstallmentsField extends StatelessWidget {
                 opacity: state.isInstallments ? 1.0 : 0.0,
                 child: state.isInstallments
                     ? TextFormField(
-                        enabled: state.isNew || state.isInstallments,
+                        enabled: (state.isNew && state.isInstallments) ||
+                            state.editAllInstallments,
                         style: TextStyle(
-                          color: state.isNew
+                          color: (state.isNew && state.isInstallments) ||
+                                  state.editAllInstallments
                               ? null
                               : Theme.of(context).disabledColor,
                         ),

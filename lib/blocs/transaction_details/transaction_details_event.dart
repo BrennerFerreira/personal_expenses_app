@@ -15,3 +15,16 @@ class DeleteTransaction extends TransactionDetailsEvent {
   @override
   List<Object?> get props => [transaction];
 }
+
+class DeleteAllInstallmentsChanged extends TransactionDetailsEvent {
+  final bool newDeleteAllTransactions;
+
+  const DeleteAllInstallmentsChanged({required this.newDeleteAllTransactions});
+
+  @override
+  List<Object?> get props => [newDeleteAllTransactions];
+
+  @override
+  String toString() =>
+      'DeleteAllInstallmentsChanged(newDeleteAllTransactions: $newDeleteAllTransactions)';
+}

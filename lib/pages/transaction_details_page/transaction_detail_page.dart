@@ -45,7 +45,7 @@ class TransactionDetailsPage extends StatelessWidget {
                   Icons.arrow_back,
                   size: 35,
                 ),
-                onPressed: state is TransactionDetailsLoading
+                onPressed: state.isLoading
                     ? null
                     : () {
                         Navigator.of(context).pushAndRemoveUntil(
@@ -58,40 +58,40 @@ class TransactionDetailsPage extends StatelessWidget {
           ),
           actionButtons: [
             BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-                value: transactionDetailsBloc,
-                builder: (context, state) {
-                  if (state is TransactionDetailsLoading) {
-                    return const IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        size: 35,
-                      ),
-                      onPressed: null,
-                    );
-                  } else {
-                    return IconButton(
-                      icon: const Icon(
-                        Icons.edit,
-                        size: 35,
-                      ),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          context: context,
-                          isScrollControlled: true,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.vertical(
-                              top: Radius.circular(30),
-                            ),
+              value: transactionDetailsBloc,
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      size: 35,
+                    ),
+                    onPressed: null,
+                  );
+                } else {
+                  return IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                      size: 35,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(30),
                           ),
-                          builder: (context) => UserTransactionFormPage(
-                            originTransaction: transaction,
-                          ),
-                        );
-                      },
-                    );
-                  }
-                  ;
-                }),
+                        ),
+                        builder: (context) => UserTransactionFormPage(
+                          originTransaction: transaction,
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
             const SizedBox(width: 15),
             BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
               value: transactionDetailsBloc,
@@ -101,14 +101,17 @@ class TransactionDetailsPage extends StatelessWidget {
                     Icons.delete,
                     size: 35,
                   ),
-                  onPressed: state is TransactionDetailsLoading
+                  onPressed: state.isLoading
                       ? null
                       : () async {
                           final bool? deleteTransaction =
                               await showDialog<bool>(
                             context: context,
                             builder: (context) {
-                              return DeleteDialog();
+                              return DeleteDialog(
+                                transaction: transaction,
+                                transactionDetailsBloc: transactionDetailsBloc,
+                              );
                             },
                           );
                           if (deleteTransaction != null && deleteTransaction) {

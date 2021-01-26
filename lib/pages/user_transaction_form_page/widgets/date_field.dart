@@ -16,8 +16,11 @@ class DateField extends StatelessWidget {
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.spaceBetween,
             children: [
-              const Text(
-                "Data da transação: ",
+              Text(
+                (state.isInstallments && state.isNew) ||
+                        state.editAllInstallments
+                    ? "Primeira parcela: "
+                    : "Data da transação: ",
               ),
               Text(
                 DateFormat(DateFormat.YEAR_MONTH_DAY, "pt-Br")

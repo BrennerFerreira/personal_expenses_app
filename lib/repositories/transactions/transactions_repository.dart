@@ -159,4 +159,23 @@ class TransactionRepository {
       return UserTransaction.fromMap(transactionListMap.first);
     }
   }
+
+  Future<int> deleteTransactionByInstallmentId(String installmentId) async {
+    final Database dbTransaction = await helper.db;
+    return dbTransaction.delete(
+      TRANSACTION_TABLE,
+      where: "$INSTALLMENT_ID_COLUMN == ?",
+      whereArgs: [installmentId],
+    );
+  }
+
+  Future<int> deleteTransactionByBetweenAccounId(
+      String betweenAccountsId) async {
+    final Database dbTransaction = await helper.db;
+    return dbTransaction.delete(
+      TRANSACTION_TABLE,
+      where: "$BETWEEN_ACCOUNTS_ID_COLUMN == ?",
+      whereArgs: [betweenAccountsId],
+    );
+  }
 }

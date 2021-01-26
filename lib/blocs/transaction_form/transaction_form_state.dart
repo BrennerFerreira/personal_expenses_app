@@ -4,6 +4,7 @@ class TransactionFormState extends Equatable {
   final bool isLoading;
   int? id;
   final bool isNew;
+  final bool editAllInstallments;
   final String title;
   final bool newAccount;
   final List<String> accountList;
@@ -23,6 +24,7 @@ class TransactionFormState extends Equatable {
     this.isLoading = true,
     this.id,
     this.isNew = true,
+    this.editAllInstallments = false,
     this.title = "",
     this.newAccount = false,
     this.accountList = const [],
@@ -45,6 +47,7 @@ class TransactionFormState extends Equatable {
     bool? isLoading,
     int? id,
     bool? isNew,
+    bool? editAllInstallments,
     String? title,
     bool? newAccount,
     List<String>? accountList,
@@ -64,6 +67,7 @@ class TransactionFormState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       id: id ?? this.id,
       isNew: isNew ?? this.isNew,
+      editAllInstallments: editAllInstallments ?? this.editAllInstallments,
       title: title ?? this.title,
       newAccount: newAccount ?? this.newAccount,
       accountList: accountList ?? this.accountList,
@@ -89,6 +93,7 @@ class TransactionFormState extends Equatable {
         isLoading,
         id,
         isNew,
+        editAllInstallments,
         title,
         newAccount,
         accountList,

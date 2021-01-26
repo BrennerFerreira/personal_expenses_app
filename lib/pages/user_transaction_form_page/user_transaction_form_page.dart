@@ -148,9 +148,11 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Nova transação",
-                              style: TextStyle(
+                            Text(
+                              state.isNew
+                                  ? "Nova transação"
+                                  : "Editar transação",
+                              style: const TextStyle(
                                 fontSize: 40,
                                 fontWeight: FontWeight.bold,
                               ),

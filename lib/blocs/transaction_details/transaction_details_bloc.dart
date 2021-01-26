@@ -10,7 +10,7 @@ part 'transaction_details_state.dart';
 
 class TransactionDetailsBloc
     extends Bloc<TransactionDetailsEvent, TransactionDetailsState> {
-  TransactionDetailsBloc() : super(TransactionDetailsInitial());
+  TransactionDetailsBloc() : super(const TransactionDetailsState());
 
   final transactionRepository = TransactionRepository();
 
@@ -19,13 +19,25 @@ class TransactionDetailsBloc
     TransactionDetailsEvent event,
   ) async* {
     if (event is DeleteTransaction) {
-      yield TransactionDetailsLoading();
+      yield state.copyWith(
+        isLoading: true,
+      );
 
-      await transactionRepository.deleteTransaction(event.transaction.id!);
+      if (state.deleteAllInstallments) {
+        await transactionRepository.deleteTransactionByInstallmentId(
+          event.transaction.installmentId!,
+        );
+      } else {
+        await transactionRepository.deleteTransaction(event.transaction.id!);
+      }
 
       yield TransactionDeleteSuccess();
 
-      yield TransactionDetailsInitial();
+      yield const TransactionDetailsState();
+    } else if (event is DeleteAllInstallmentsChanged) {
+      yield state.copyWith(
+        deleteAllInstallments: event.newDeleteAllTransactions,
+      );
     }
   }
 }

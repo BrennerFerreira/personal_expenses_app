@@ -70,21 +70,25 @@ class UserTransaction extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-        id,
-        title,
-        account,
-        isInstallment,
-        numberOfInstallments,
-        installmentId,
-        isBetweenAccounts,
-        betweenAccountsId,
-        date,
-        savedAt,
-        isIncome,
-        price,
-      ];
+  List<Object?> get props {
+    return [
+      id,
+      title,
+      account,
+      price,
+      isIncome,
+      date,
+      isInstallment,
+      numberOfInstallments,
+      installmentId,
+      isBetweenAccounts,
+      betweenAccountsId,
+      savedAt,
+    ];
+  }
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return "$id, $title, $account, $price, $isIncome, $date, $isInstallment, $numberOfInstallments, $installmentId, $isBetweenAccounts, $betweenAccountsId, $savedAt";
+  }
 }
