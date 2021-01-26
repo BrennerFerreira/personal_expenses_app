@@ -15,27 +15,6 @@ class AccountStatsRepository {
 
     final Database dbTransaction = await helper.db;
 
-    final List<Map<String, dynamic>> incomeMap = await dbTransaction.rawQuery(
-      "SELECT SUM($PRICE_COLUMN) AS TOTAL_INCOME "
-      "FROM $TRANSACTION_TABLE "
-      "WHERE $IS_INCOME_COLUMN == 'true' "
-      "AND $ACCOUNT_COLUMN == '$account' "
-      "AND ($DATE_COLUMN BETWEEN $startDate AND $todayDate)",
-    );
-
-    final double totalIncome = (incomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double;
-
-    final List<Map<String, dynamic>> outcomeMap = await dbTransaction.rawQuery(
-      "SELECT SUM($PRICE_COLUMN) AS TOTAL_OUTCOME "
-      "FROM $TRANSACTION_TABLE "
-      "WHERE $IS_INCOME_COLUMN == 'false' "
-      "AND $ACCOUNT_COLUMN == '$account' "
-      "AND ($DATE_COLUMN BETWEEN $startDate AND $todayDate)",
-    );
-
-    final double totalOutcome =
-        (outcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double;
-
     final List<Map<String, dynamic>> totalIncomeMap =
         await dbTransaction.rawQuery(
       "SELECT SUM($PRICE_COLUMN) AS TOTAL_INCOME "
@@ -43,6 +22,9 @@ class AccountStatsRepository {
       "WHERE $IS_INCOME_COLUMN == 'true' "
       "AND $ACCOUNT_COLUMN == '$account' ",
     );
+
+    final double totalIncome =
+        (totalIncomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double;
 
     final List<Map<String, dynamic>> totalOutcomeMap =
         await dbTransaction.rawQuery(
@@ -52,9 +34,10 @@ class AccountStatsRepository {
       "AND $ACCOUNT_COLUMN == '$account' ",
     );
 
-    final double totalBalance =
-        ((totalIncomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double) -
-            ((totalOutcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double);
+    final double totalOutcome =
+        (totalOutcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double;
+
+    final double totalBalance = totalIncome - totalOutcome;
 
     return {
       'totalBalance': totalBalance,
