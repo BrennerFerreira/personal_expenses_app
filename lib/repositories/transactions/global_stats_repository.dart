@@ -99,11 +99,17 @@ class GlobalStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
       "WHERE ($DATE_COLUMN BETWEEN $millisecondsInitialDate AND $millisecondsFinalDate) "
-      "AND $IS_INCOME_COLUMN == 'true'",
+      "AND $IS_INCOME_COLUMN == 'true' "
+      "AND $IS_BETWEEN_ACCOUNTS_COLUMN == 'false'",
     );
 
     final UserTransaction? highestIncomeTransaction =
@@ -118,11 +124,17 @@ class GlobalStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
       "WHERE ($DATE_COLUMN BETWEEN $millisecondsInitialDate AND $millisecondsFinalDate) "
-      "AND $IS_INCOME_COLUMN == 'false'",
+      "AND $IS_INCOME_COLUMN == 'false' "
+      "AND $IS_BETWEEN_ACCOUNTS_COLUMN == 'false'",
     );
 
     final UserTransaction? highestOutcomeTransaction =

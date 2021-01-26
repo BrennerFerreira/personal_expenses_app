@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/transaction_details/transaction_details_bloc.dart';
+import 'package:personal_expenses/blocs/transaction_details_page/transaction_details_page_bloc.dart';
 import 'package:personal_expenses/models/transaction.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_scaffold.dart';

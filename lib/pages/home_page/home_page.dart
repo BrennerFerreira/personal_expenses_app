@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                 children: [
                   HomeCard(),
                   AccountsCard(),
-                  DateRangeCard(),
+                  DateRangeTransactionsCard(),
                   FutureTransactionsCard(),
                 ],
               ),
