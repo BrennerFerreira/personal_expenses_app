@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_expenses/blocs/account_list_page/account_tile/account_tile_bloc.dart';
+import 'package:personal_expenses/pages/account_details_page/account_details_page.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
 import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/account_list_page/widgets/balance_card.dart';
+import 'package:personal_expenses/pages/common/balance_card.dart';
 
 class AccountTile extends StatefulWidget {
   final String account;
@@ -63,12 +64,12 @@ class _AccountTileState extends State<AccountTile> {
                             bottomRight: Radius.circular(15),
                           ),
                           onTap: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (_) =>
-                            //         AccountDetailsScreen(account: account),
-                            //   ),
-                            // );
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (_) =>
+                                    AccountDetailsPage(account: widget.account),
+                              ),
+                            );
                           },
                           child: ListView(
                             primary: false,

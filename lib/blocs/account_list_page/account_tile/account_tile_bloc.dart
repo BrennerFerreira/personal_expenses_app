@@ -19,8 +19,8 @@ class AccountTileBloc extends Bloc<AccountTileEvent, AccountTileState> {
     if (event is UpdateAccountTile) {
       yield AccountTileLoadInProgress();
 
-      final Map<String, double> accountBalance = await accountStatsRepository
-          .lastThirtyDaysAccountBalance(event.account);
+      final Map<String, double> accountBalance =
+          await accountStatsRepository.accountBalance(event.account);
 
       yield AccountTileLoadSuccess(
         account: event.account,

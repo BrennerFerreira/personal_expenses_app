@@ -5,14 +5,7 @@ import 'package:sqflite/sqflite.dart';
 class AccountStatsRepository {
   final helper = TransactionHelper();
 
-  Future<Map<String, double>> lastThirtyDaysAccountBalance(
-      String account) async {
-    final todayDate = DateTime.now().millisecondsSinceEpoch;
-
-    final startDate = DateTime.now()
-        .subtract(const Duration(days: 30))
-        .millisecondsSinceEpoch;
-
+  Future<Map<String, double>> accountBalance(String account) async {
     final Database dbTransaction = await helper.db;
 
     final List<Map<String, dynamic>> totalIncomeMap =
