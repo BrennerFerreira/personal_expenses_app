@@ -30,6 +30,27 @@ class TransactionRepository {
     }
   }
 
+  Future<List<UserTransaction>> getTransactionByTitle(String title) async {
+    if (title.length < 3) {
+      return [];
+    } else {
+      final Database dbTransaction = await helper.db;
+      final List<Map<String, dynamic>> maps = await dbTransaction.query(
+        TRANSACTION_TABLE,
+        where: "$TITLE_COLUMN LIKE ?",
+        whereArgs: ['%$title%'],
+        orderBy: "$DATE_COLUMN DESC",
+      );
+      final List<UserTransaction> transactions = [];
+      if (maps.isNotEmpty) {
+        for (final Map<String, dynamic> transactionMap in maps) {
+          transactions.add(UserTransaction.fromMap(transactionMap));
+        }
+      }
+      return transactions;
+    }
+  }
+
   Future<Map<String, UserTransaction>> getBetweenAccountsTransaction(
       String betweenAccountsId) async {
     final Database dbTransaction = await helper.db;

@@ -12,6 +12,7 @@ import 'package:personal_expenses/pages/user_transaction_form_page/user_transact
 class TransactionDetailsPage extends StatelessWidget {
   final UserTransaction transaction;
   final MaterialPageRoute lastPage;
+  final bool fromSearch;
 
   final transactionDetailsBloc = TransactionDetailsBloc();
 
@@ -19,6 +20,7 @@ class TransactionDetailsPage extends StatelessWidget {
     Key? key,
     required this.transaction,
     required this.lastPage,
+    this.fromSearch = false,
   }) : super(key: key);
 
   @override
@@ -36,13 +38,15 @@ class TransactionDetailsPage extends StatelessWidget {
           }
         },
         child: WillPopScope(
-          onWillPop: () async {
-            Navigator.of(context).pushAndRemoveUntil(
-              lastPage,
-              (route) => false,
-            );
-            return true;
-          },
+          onWillPop: fromSearch
+              ? () async => true
+              : () async {
+                  Navigator.of(context).pushAndRemoveUntil(
+                    lastPage,
+                    (route) => false,
+                  );
+                  return true;
+                },
           child: CommonScaffold(
             leadingButton:
                 BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
@@ -55,12 +59,14 @@ class TransactionDetailsPage extends StatelessWidget {
                   ),
                   onPressed: state.isLoading
                       ? null
-                      : () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            lastPage,
-                            (route) => false,
-                          );
-                        },
+                      : fromSearch
+                          ? Navigator.of(context).pop
+                          : () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                lastPage,
+                                (route) => false,
+                              );
+                            },
                 );
               },
             ),

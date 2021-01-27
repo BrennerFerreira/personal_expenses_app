@@ -4,6 +4,7 @@ class CommonScaffold extends StatelessWidget {
   final String title;
   final List<Widget> children;
   final bool isHomePage;
+  final bool isSearch;
   final Widget? leadingButton;
   final List<Widget>? actionButtons;
   const CommonScaffold({
@@ -12,26 +13,29 @@ class CommonScaffold extends StatelessWidget {
     required this.children,
     this.leadingButton,
     this.actionButtons,
+    this.isSearch = false,
     this.isHomePage = false,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: leadingButton,
-        actions: [
-          if (actionButtons != null)
-            Padding(
-              padding: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.035,
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: actionButtons!,
-              ),
+      appBar: isSearch
+          ? null
+          : AppBar(
+              leading: leadingButton,
+              actions: [
+                if (actionButtons != null)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.035,
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: actionButtons!,
+                    ),
+                  ),
+              ],
             ),
-        ],
-      ),
       body: Stack(
         children: [
           Container(
@@ -60,27 +64,34 @@ class CommonScaffold extends StatelessWidget {
                   isHomePage ? 0 : MediaQuery.of(context).size.width * 0.025,
               vertical: MediaQuery.of(context).size.height * 0.01,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: isHomePage
-                        ? MediaQuery.of(context).size.width * 0.05
-                        : 0,
-                    bottom: MediaQuery.of(context).size.height * 0.01,
-                  ),
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.88,
                 ),
-                ...children,
-              ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: isHomePage
+                            ? MediaQuery.of(context).size.width * 0.05
+                            : 0,
+                        bottom: MediaQuery.of(context).size.height * 0.01,
+                      ),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    ...children,
+                  ],
+                ),
+              ),
             ),
           ),
         ],

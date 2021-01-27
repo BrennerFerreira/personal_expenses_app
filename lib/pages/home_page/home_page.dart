@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
+import 'package:personal_expenses/pages/search_page/search_page.dart';
 import 'package:personal_expenses/pages/common/common_scaffold.dart';
 import 'package:personal_expenses/pages/home_page/widgets/date_range_card.dart';
 import 'package:personal_expenses/pages/home_page/widgets/future_transactions_card.dart';
@@ -23,7 +24,12 @@ class HomePage extends StatelessWidget {
         ),
         child: IconButton(
           icon: const Icon(Icons.search, size: 35),
-          onPressed: () {},
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: Search(),
+            );
+          },
         ),
       ),
       actionButtons: [
@@ -51,8 +57,8 @@ class HomePage extends StatelessWidget {
               create: (context) => pageViewBloc,
               child: PageView(
                 controller: PageController(viewportFraction: 0.925),
-                onPageChanged: (value) {
-                  pageViewBloc.add(ChangePageEvent(value));
+                onPageChanged: (newPage) {
+                  pageViewBloc.add(ChangePageEvent(newPage));
                 },
                 children: [
                   HomeCard(),
