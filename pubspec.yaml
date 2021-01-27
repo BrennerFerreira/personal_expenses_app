@@ -1,7 +1,7 @@
 name: personal_expenses
 description: App designed to help people to have a better control over their spendings.
 
-publish_to: 'none' 
+publish_to: 'none'
 
 version: 1.0.0+1
 
@@ -24,16 +24,21 @@ dependencies:
   sqflite: ^2.0.0-nullsafety.2
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.8.1
   flutter_test:
     sdk: flutter
   lint: ^1.5.1
 
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/images/icon.png"
+  adaptative_icon_background: "#4B1AC3"
 
 flutter:
   uses-material-design: true
   assets:
     - assets/images/
-
 
   fonts:
     - family: Fira-Sans
@@ -81,4 +86,3 @@ flutter:
         - asset: assets/fonts/Fira_Sans/FiraSans-ThinItalic.ttf
           weight: 100
           style: italic
-

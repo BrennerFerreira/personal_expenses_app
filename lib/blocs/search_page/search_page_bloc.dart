@@ -18,7 +18,6 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     SearchPageEvent event,
   ) async* {
     if (event is UpdateSearch) {
-      print(event.query);
       final List<UserTransaction> results =
           await transactionRepository.getTransactionByTitle(event.query);
       yield SearchPageLoadSuccess(
