@@ -17,6 +17,15 @@ class HomePage extends StatelessWidget {
     return CommonScaffold(
       isHomePage: true,
       title: "Início",
+      leadingButton: Padding(
+        padding: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.02,
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.search, size: 35),
+          onPressed: () {},
+        ),
+      ),
       actionButtons: [
         IconButton(
           icon: const Icon(Icons.add, size: 35),

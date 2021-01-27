@@ -12,11 +12,14 @@ class PriceField extends StatelessWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Expanded(child: Text("Valor:")),
+            Expanded(
+              child: Text(
+                state.isInstallments ? "Valor total: " : "Valor: ",
+              ),
+            ),
             Expanded(
               child: TextFormField(
                 decoration: InputDecoration(
-                  hintText: "Valor da transação",
                   prefixText: "R\$ ",
                   prefixStyle: const TextStyle(
                     fontSize: 18,

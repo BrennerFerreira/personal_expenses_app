@@ -16,11 +16,12 @@ class NormalForm extends StatelessWidget {
         TitleField(),
         const SizedBox(height: 10),
         AccountField(),
+        InstallmentsField(),
+        const SizedBox(height: 20),
         PriceField(),
         const SizedBox(height: 20),
         IsIncomeField(),
         DateField(),
-        InstallmentsField(),
         const SizedBox(height: 20),
       ],
     );

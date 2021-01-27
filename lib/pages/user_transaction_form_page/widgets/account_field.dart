@@ -157,7 +157,6 @@ class AccountField extends StatelessWidget {
                     )
                   : Container(),
             ),
-            const SizedBox(height: 20),
           ],
         );
       },
