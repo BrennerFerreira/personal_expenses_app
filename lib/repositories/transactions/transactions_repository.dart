@@ -20,15 +20,6 @@ class TransactionRepository {
     final Database dbTransaction = await helper.db;
     final List<Map<String, dynamic>> maps = await dbTransaction.query(
       TRANSACTION_TABLE,
-      columns: [
-        ID_COLUMN,
-        TITLE_COLUMN,
-        ACCOUNT_COLUMN,
-        DATE_COLUMN,
-        SAVED_AT_COLUMN,
-        IS_INCOME_COLUMN,
-        PRICE_COLUMN,
-      ],
       where: "$ID_COLUMN == ?",
       whereArgs: [id],
     );
@@ -37,6 +28,50 @@ class TransactionRepository {
     } else {
       return null;
     }
+  }
+
+  Future<List<UserTransaction>> getTransactionByTitle(String title) async {
+    if (title.length < 3) {
+      return [];
+    } else {
+      final Database dbTransaction = await helper.db;
+      final List<Map<String, dynamic>> maps = await dbTransaction.query(
+        TRANSACTION_TABLE,
+        where: "$TITLE_COLUMN LIKE ?",
+        whereArgs: ['%$title%'],
+        orderBy: "$DATE_COLUMN DESC",
+      );
+      final List<UserTransaction> transactions = [];
+      if (maps.isNotEmpty) {
+        for (final Map<String, dynamic> transactionMap in maps) {
+          transactions.add(UserTransaction.fromMap(transactionMap));
+        }
+      }
+      return transactions;
+    }
+  }
+
+  Future<Map<String, UserTransaction>> getBetweenAccountsTransaction(
+      String betweenAccountsId) async {
+    final Database dbTransaction = await helper.db;
+    final List<Map<String, dynamic>> incomeTransaction =
+        await dbTransaction.query(
+      TRANSACTION_TABLE,
+      where: "$BETWEEN_ACCOUNTS_ID_COLUMN == ? AND $IS_INCOME_COLUMN == ?",
+      whereArgs: [betweenAccountsId, 'true'],
+    );
+
+    final List<Map<String, dynamic>> outcomeTransaction =
+        await dbTransaction.query(
+      TRANSACTION_TABLE,
+      where: "$BETWEEN_ACCOUNTS_ID_COLUMN == ? AND $IS_INCOME_COLUMN == ?",
+      whereArgs: [betweenAccountsId, 'false'],
+    );
+    final Map<String, UserTransaction> betweenAccountsTransactions = {
+      'income': UserTransaction.fromMap(incomeTransaction[0]),
+      'outcome': UserTransaction.fromMap(outcomeTransaction[0]),
+    };
+    return betweenAccountsTransactions;
   }
 
   Future<int> deleteTransaction(int id) async {
@@ -158,5 +193,24 @@ class TransactionRepository {
     } else {
       return UserTransaction.fromMap(transactionListMap.first);
     }
+  }
+
+  Future<int> deleteTransactionByInstallmentId(String installmentId) async {
+    final Database dbTransaction = await helper.db;
+    return dbTransaction.delete(
+      TRANSACTION_TABLE,
+      where: "$INSTALLMENT_ID_COLUMN == ?",
+      whereArgs: [installmentId],
+    );
+  }
+
+  Future<int> deleteTransactionByBetweenAccounId(
+      String betweenAccountsId) async {
+    final Database dbTransaction = await helper.db;
+    return dbTransaction.delete(
+      TRANSACTION_TABLE,
+      where: "$BETWEEN_ACCOUNTS_ID_COLUMN == ?",
+      whereArgs: [betweenAccountsId],
+    );
   }
 }

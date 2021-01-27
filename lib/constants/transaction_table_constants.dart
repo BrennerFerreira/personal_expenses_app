@@ -11,6 +11,16 @@ const String TITLE_COLUMN = "titleColumn";
 // ignore: constant_identifier_names
 const String ACCOUNT_COLUMN = "accountColumn";
 // ignore: constant_identifier_names
+const String IS_INSTALLMENT_COLUMN = "isInstallmentColumn";
+// ignore: constant_identifier_names
+const String NUMBER_INSTALLMENTS_COLUMN = "numberInstallmentsColumn";
+// ignore: constant_identifier_names
+const String INSTALLMENT_ID_COLUMN = "installmentIdColumn";
+// ignore: constant_identifier_names
+const String IS_BETWEEN_ACCOUNTS_COLUMN = "isBetweenAccountsColumn";
+// ignore: constant_identifier_names
+const String BETWEEN_ACCOUNTS_ID_COLUMN = "betweenAccountsIdColumn";
+// ignore: constant_identifier_names
 const String DATE_COLUMN = "dateColumn";
 // ignore: constant_identifier_names
 const String SAVED_AT_COLUMN = "savedAtColumn";

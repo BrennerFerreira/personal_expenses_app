@@ -7,45 +7,56 @@ import 'package:sqflite/sqflite.dart';
 class GlobalStatsRepository {
   final helper = TransactionHelper();
 
-  Future<Map<String, double>> lastThirtyDaysBalance() async {
+  Future<Map<String, double>> pastBalance() async {
     final todayDate = DateTime.now().millisecondsSinceEpoch;
-
-    final startDate = DateTime.now()
-        .subtract(const Duration(days: 30))
-        .millisecondsSinceEpoch;
 
     final Database dbTransaction = await helper.db;
 
     final List<Map<String, dynamic>> incomeMap = await dbTransaction.rawQuery(
       "SELECT SUM($PRICE_COLUMN) AS TOTAL_INCOME "
       "FROM $TRANSACTION_TABLE "
-      "WHERE $IS_INCOME_COLUMN == 'true' AND ($DATE_COLUMN BETWEEN $startDate AND $todayDate)",
+      "WHERE $IS_INCOME_COLUMN == 'true' "
+      "AND $DATE_COLUMN < $todayDate",
     );
     final double totalIncome = (incomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double;
 
     final List<Map<String, dynamic>> outcomeMap = await dbTransaction.rawQuery(
       "SELECT SUM($PRICE_COLUMN) AS TOTAL_OUTCOME "
       "FROM $TRANSACTION_TABLE "
-      "WHERE $IS_INCOME_COLUMN == 'false' AND ($DATE_COLUMN BETWEEN $startDate AND $todayDate)",
+      "WHERE $IS_INCOME_COLUMN == 'false' "
+      "AND $DATE_COLUMN < $todayDate",
     );
     final double totalOutcome =
         (outcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double;
 
-    final List<Map<String, dynamic>> totalIncomeMap =
-        await dbTransaction.rawQuery(
+    final double totalBalance = totalIncome - totalOutcome;
+
+    return {
+      'totalBalance': totalBalance,
+      'totalIncome': totalIncome,
+      'totalOutcome': totalOutcome
+    };
+  }
+
+  Future<Map<String, double>> totalBalance() async {
+    final Database dbTransaction = await helper.db;
+
+    final List<Map<String, dynamic>> incomeMap = await dbTransaction.rawQuery(
       "SELECT SUM($PRICE_COLUMN) AS TOTAL_INCOME "
       "FROM $TRANSACTION_TABLE "
       "WHERE $IS_INCOME_COLUMN == 'true'",
     );
-    final List<Map<String, dynamic>> totalOutcomeMap =
-        await dbTransaction.rawQuery(
+    final double totalIncome = (incomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double;
+
+    final List<Map<String, dynamic>> outcomeMap = await dbTransaction.rawQuery(
       "SELECT SUM($PRICE_COLUMN) AS TOTAL_OUTCOME "
       "FROM $TRANSACTION_TABLE "
       "WHERE $IS_INCOME_COLUMN == 'false'",
     );
-    final double totalBalance =
-        ((totalIncomeMap[0]['TOTAL_INCOME'] ?? 0.0) as double) -
-            ((totalOutcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double);
+    final double totalOutcome =
+        (outcomeMap[0]['TOTAL_OUTCOME'] ?? 0.0) as double;
+
+    final double totalBalance = totalIncome - totalOutcome;
 
     return {
       'totalBalance': totalBalance,
@@ -88,11 +99,17 @@ class GlobalStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
       "WHERE ($DATE_COLUMN BETWEEN $millisecondsInitialDate AND $millisecondsFinalDate) "
-      "AND $IS_INCOME_COLUMN == 'true'",
+      "AND $IS_INCOME_COLUMN == 'true' "
+      "AND $IS_BETWEEN_ACCOUNTS_COLUMN == 'false'",
     );
 
     final UserTransaction? highestIncomeTransaction =
@@ -107,11 +124,17 @@ class GlobalStatsRepository {
       "$ACCOUNT_COLUMN, "
       "$IS_INCOME_COLUMN, "
       "$DATE_COLUMN, "
+      "$IS_INSTALLMENT_COLUMN, "
+      "$NUMBER_INSTALLMENTS_COLUMN, "
+      "$INSTALLMENT_ID_COLUMN, "
+      "$IS_BETWEEN_ACCOUNTS_COLUMN, "
+      "$BETWEEN_ACCOUNTS_ID_COLUMN, "
       "$SAVED_AT_COLUMN, "
       "MAX($PRICE_COLUMN) AS $PRICE_COLUMN "
       "FROM $TRANSACTION_TABLE "
       "WHERE ($DATE_COLUMN BETWEEN $millisecondsInitialDate AND $millisecondsFinalDate) "
-      "AND $IS_INCOME_COLUMN == 'false'",
+      "AND $IS_INCOME_COLUMN == 'false' "
+      "AND $IS_BETWEEN_ACCOUNTS_COLUMN == 'false'",
     );
 
     final UserTransaction? highestOutcomeTransaction =
