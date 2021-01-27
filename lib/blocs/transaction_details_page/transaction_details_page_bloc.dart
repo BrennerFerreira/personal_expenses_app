@@ -18,6 +18,31 @@ class TransactionDetailsBloc
   Stream<TransactionDetailsState> mapEventToState(
     TransactionDetailsEvent event,
   ) async* {
+    if (event is UpdateTransactionDetailsPage) {
+      yield const TransactionDetailsState();
+      {
+        if (event.transaction.isBetweenAccounts) {
+          final Map<String, UserTransaction> betweenAccountsMap =
+              await transactionRepository.getBetweenAccountsTransaction(
+            event.transaction.betweenAccountsId!,
+          );
+          final UserTransaction origin =
+              betweenAccountsMap['outcome'] as UserTransaction;
+          final UserTransaction destination =
+              betweenAccountsMap['income'] as UserTransaction;
+          yield state.copyWith(
+            isLoading: false,
+            originTransaction: origin,
+            destinationTransaction: destination,
+          );
+        } else {
+          yield state.copyWith(
+            isLoading: false,
+            originTransaction: event.transaction,
+          );
+        }
+      }
+    }
     if (event is DeleteTransaction) {
       yield state.copyWith(
         isLoading: true,

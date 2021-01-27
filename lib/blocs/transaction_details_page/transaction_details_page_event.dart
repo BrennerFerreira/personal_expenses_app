@@ -7,6 +7,20 @@ abstract class TransactionDetailsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class UpdateTransactionDetailsPage extends TransactionDetailsEvent {
+  final UserTransaction transaction;
+  const UpdateTransactionDetailsPage({
+    required this.transaction,
+  });
+
+  @override
+  List<Object?> get props => [transaction];
+
+  @override
+  String toString() =>
+      'UpdateTransactionDetailsPage(transaction: $transaction)';
+}
+
 class DeleteTransaction extends TransactionDetailsEvent {
   final UserTransaction transaction;
 

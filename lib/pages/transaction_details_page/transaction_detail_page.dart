@@ -5,18 +5,17 @@ import 'package:intl/intl.dart';
 import 'package:personal_expenses/blocs/transaction_details_page/transaction_details_page_bloc.dart';
 import 'package:personal_expenses/models/transaction.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
+import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
 import 'package:personal_expenses/pages/common/common_scaffold.dart';
 import 'package:personal_expenses/pages/transaction_details_page/widgets/delete_dialog.dart';
 import 'package:personal_expenses/pages/user_transaction_form_page/user_transaction_form_page.dart';
 
-class TransactionDetailsPage extends StatelessWidget {
+class TransactionDetailsPage extends StatefulWidget {
   final UserTransaction transaction;
   final MaterialPageRoute lastPage;
   final bool fromSearch;
 
-  final transactionDetailsBloc = TransactionDetailsBloc();
-
-  TransactionDetailsPage({
+  const TransactionDetailsPage({
     Key? key,
     required this.transaction,
     required this.lastPage,
@@ -24,66 +23,79 @@ class TransactionDetailsPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TransactionDetailsPageState createState() => _TransactionDetailsPageState();
+}
+
+class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
+  late TransactionDetailsBloc transactionDetailsBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    transactionDetailsBloc = TransactionDetailsBloc()
+      ..add(
+        UpdateTransactionDetailsPage(
+          transaction: widget.transaction,
+        ),
+      );
+  }
+
+  @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return BlocProvider(
       create: (context) => transactionDetailsBloc,
       child: BlocListener<TransactionDetailsBloc, TransactionDetailsState>(
+        value: transactionDetailsBloc,
         listener: (context, state) {
           if (state is TransactionDeleteSuccess) {
             Navigator.of(context).pushAndRemoveUntil(
-              lastPage,
+              widget.lastPage,
               (route) => false,
             );
           }
         },
         child: WillPopScope(
-          onWillPop: fromSearch
+          onWillPop: widget.fromSearch
               ? () async => true
               : () async {
                   Navigator.of(context).pushAndRemoveUntil(
-                    lastPage,
+                    widget.lastPage,
                     (route) => false,
                   );
                   return true;
                 },
-          child: CommonScaffold(
-            leadingButton:
-                BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-              value: transactionDetailsBloc,
-              builder: (context, state) {
-                return IconButton(
+          child: BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
+            value: transactionDetailsBloc,
+            builder: (context, state) {
+              return CommonScaffold(
+                leadingButton: IconButton(
                   icon: const Icon(
                     Icons.arrow_back,
                     size: 35,
                   ),
                   onPressed: state.isLoading
                       ? null
-                      : fromSearch
+                      : widget.fromSearch
                           ? Navigator.of(context).pop
                           : () {
                               Navigator.of(context).pushAndRemoveUntil(
-                                lastPage,
+                                widget.lastPage,
                                 (route) => false,
                               );
                             },
-                );
-              },
-            ),
-            actionButtons: [
-              BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-                value: transactionDetailsBloc,
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const IconButton(
+                ),
+                actionButtons: [
+                  if (state.isLoading)
+                    const IconButton(
                       icon: Icon(
                         Icons.edit,
                         size: 35,
                       ),
                       onPressed: null,
-                    );
-                  } else {
-                    return IconButton(
+                    )
+                  else
+                    IconButton(
                       icon: const Icon(
                         Icons.edit,
                         size: 35,
@@ -98,19 +110,13 @@ class TransactionDetailsPage extends StatelessWidget {
                             ),
                           ),
                           builder: (context) => UserTransactionFormPage(
-                            transaction: transaction,
+                            transaction: state.originTransaction,
                           ),
                         );
                       },
-                    );
-                  }
-                },
-              ),
-              const SizedBox(width: 15),
-              BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-                value: transactionDetailsBloc,
-                builder: (context, state) {
-                  return IconButton(
+                    ),
+                  const SizedBox(width: 15),
+                  IconButton(
                     icon: const Icon(
                       Icons.delete,
                       size: 35,
@@ -123,7 +129,7 @@ class TransactionDetailsPage extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return DeleteDialog(
-                                  transaction: transaction,
+                                  transaction: state.originTransaction!,
                                   transactionDetailsBloc:
                                       transactionDetailsBloc,
                                 );
@@ -133,58 +139,95 @@ class TransactionDetailsPage extends StatelessWidget {
                                 deleteTransaction) {
                               transactionDetailsBloc.add(
                                 DeleteTransaction(
-                                  transaction,
+                                  state.originTransaction!,
                                 ),
                               );
                             }
                           },
-                  );
-                },
-              ),
-            ],
-            title: transaction.title,
-            children: [
-              Text(
-                "Criada em: ${DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR').format(transaction.savedAt)}",
-              ),
-              const SizedBox(height: 30),
-              BlurredCard(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    attributeRow(
-                      context,
-                      preffix: "Conta: ",
-                      attribute: transaction.account,
-                    ),
-                    attributeRow(
-                      context,
-                      preffix: "Data da transação: ",
-                      attribute: DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR')
-                          .format(transaction.date),
-                    ),
-                    attributeRow(
-                      context,
-                      preffix: "Tipo de transação: ",
-                      attribute: transaction.isIncome ? "Receita" : "Despesa",
-                    ),
-                    attributeRow(
-                      context,
-                      preffix: "Valor: ",
-                      attribute:
-                          "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
-                    ),
-                    attributeRow(
-                      context,
-                      preffix: "Parcelas: ",
-                      attribute: transaction.isInstallment
-                          ? transaction.numberOfInstallments.toString()
-                          : "Parcela Única",
-                    ),
-                  ],
-                ),
-              ),
-            ],
+                  ),
+                ],
+                title: state.isLoading ? "" : state.originTransaction!.title,
+                children: state.isLoading
+                    ? [
+                        CommonCircularIndicator(),
+                      ]
+                    : [
+                        Text(
+                          "Criada em: ${DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR').format(state.originTransaction!.savedAt)}",
+                        ),
+                        const SizedBox(height: 30),
+                        BlurredCard(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              attributeRow(
+                                context,
+                                preffix: "Conta: ",
+                                attribute: state.originTransaction!.account,
+                              ),
+                              attributeRow(
+                                context,
+                                preffix: "Data da transação: ",
+                                attribute: DateFormat(
+                                        DateFormat.YEAR_MONTH_DAY, 'pt-BR')
+                                    .format(state.originTransaction!.date),
+                              ),
+                              if (!state.originTransaction!.isBetweenAccounts)
+                                attributeRow(
+                                  context,
+                                  preffix: "Tipo de transação: ",
+                                  attribute: state.originTransaction!.isIncome
+                                      ? "Receita"
+                                      : "Despesa",
+                                ),
+                              if (!state.originTransaction!.isInstallment)
+                                attributeRow(
+                                  context,
+                                  preffix: "Valor: ",
+                                  attribute:
+                                      "R\$ ${state.originTransaction!.price.toStringAsFixed(2).replaceAll(".", ",")}",
+                                ),
+                              if (state.originTransaction!.isInstallment)
+                                attributeRow(
+                                  context,
+                                  preffix: "Valor total: ",
+                                  attribute:
+                                      "R\$ ${(state.originTransaction!.price * state.originTransaction!.numberOfInstallments).toStringAsFixed(2).replaceAll(".", ",")}",
+                                ),
+                              if (state.originTransaction!.isInstallment)
+                                attributeRow(
+                                  context,
+                                  preffix: "Valor da parcela: ",
+                                  attribute:
+                                      "R\$ ${state.originTransaction!.price.toStringAsFixed(2).replaceAll(".", ",")}",
+                                ),
+                              if (state.originTransaction!.isInstallment)
+                                attributeRow(
+                                  context,
+                                  preffix: "Parcelas: ",
+                                  attribute: state
+                                      .originTransaction!.numberOfInstallments
+                                      .toString(),
+                                ),
+                              if (state.originTransaction!.isBetweenAccounts)
+                                attributeRow(
+                                  context,
+                                  preffix: "Conta de origem: ",
+                                  attribute: state.originTransaction!.account,
+                                ),
+                              if (state.originTransaction!.isBetweenAccounts)
+                                attributeRow(
+                                  context,
+                                  preffix: "Conta de destino: ",
+                                  attribute:
+                                      state.destinationTransaction!.account,
+                                ),
+                            ],
+                          ),
+                        ),
+                      ],
+              );
+            },
           ),
         ),
       ),
