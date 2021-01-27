@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expenses/models/transaction.dart';
 import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
 
@@ -40,9 +41,10 @@ class DateRangeBalanceCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "R\$ ${totalIncome.toStringAsFixed(2).replaceAll(".", ",")}",
+                  NumberFormat.currency(locale: 'pt-BR', symbol: "R\$")
+                      .format(totalIncome),
                   style: const TextStyle(
-                    fontSize: 36,
+                    fontSize: 30,
                   ),
                 ),
               ],
@@ -64,9 +66,10 @@ class DateRangeBalanceCard extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "R\$ ${totalOutcome.toStringAsFixed(2).replaceAll(".", ",")}",
+                  NumberFormat.currency(locale: 'pt-BR', symbol: "R\$")
+                      .format(totalOutcome),
                   style: const TextStyle(
-                    fontSize: 36,
+                    fontSize: 30,
                   ),
                 ),
               ],

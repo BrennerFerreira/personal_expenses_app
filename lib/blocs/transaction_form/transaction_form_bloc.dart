@@ -125,7 +125,8 @@ class TransactionFormBloc
         destinationAccountError: "",
       );
     } else if (event is PriceChanged) {
-      final String priceReplaced = event.newPrice.replaceAll(",", ".");
+      final String priceReplaced =
+          event.newPrice.replaceAll(".", "").replaceAll(",", ".");
       final double price = double.parse(priceReplaced);
       yield state.copyWith(
         price: price,

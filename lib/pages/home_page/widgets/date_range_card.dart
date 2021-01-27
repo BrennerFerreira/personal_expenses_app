@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
@@ -61,9 +62,12 @@ class _DateRangeTransactionsCardState extends State<DateRangeTransactionsCard> {
                               ),
                               const SizedBox(height: 20),
                               Text(
-                                "R\$ ${state.balance.toStringAsFixed(2).replaceAll(".", ",")}",
+                                NumberFormat.currency(
+                                  locale: 'pt-BR',
+                                  symbol: "R\$",
+                                ).format(state.balance),
                                 style: const TextStyle(
-                                  fontSize: 40,
+                                  fontSize: 30,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 textAlign: TextAlign.center,
@@ -84,9 +88,12 @@ class _DateRangeTransactionsCardState extends State<DateRangeTransactionsCard> {
                                             size: 25,
                                           ),
                                           Text(
-                                            "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            NumberFormat.currency(
+                                              locale: 'pt-BR',
+                                              symbol: "R\$",
+                                            ).format(state.income),
                                             style: const TextStyle(
-                                              fontSize: 30,
+                                              fontSize: 24,
                                             ),
                                           ),
                                         ],
@@ -104,9 +111,12 @@ class _DateRangeTransactionsCardState extends State<DateRangeTransactionsCard> {
                                             size: 25,
                                           ),
                                           Text(
-                                            "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            NumberFormat.currency(
+                                              locale: 'pt-BR',
+                                              symbol: "R\$",
+                                            ).format(state.outcome),
                                             style: const TextStyle(
-                                              fontSize: 30,
+                                              fontSize: 24,
                                             ),
                                           ),
                                         ],

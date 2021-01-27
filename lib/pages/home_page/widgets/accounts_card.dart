@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
 import 'package:personal_expenses/pages/account_list_page/accounts_list_page.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
@@ -68,7 +69,14 @@ class _AccountsCardState extends State<AccountsCard> {
                                               .first,
                                         ),
                                         trailing: Text(
-                                            "R\$ ${state.accountsBalanceMap[index].values.first.toStringAsFixed(2).replaceAll(".", ",")}"),
+                                          NumberFormat.currency(
+                                                  locale: 'pt-BR',
+                                                  symbol: "R\$")
+                                              .format(state
+                                                  .accountsBalanceMap[index]
+                                                  .values
+                                                  .first),
+                                        ),
                                       );
                                     },
                                   ),

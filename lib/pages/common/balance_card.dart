@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 
 class BalanceCard extends StatelessWidget {
   final double totalBalance;
@@ -44,9 +45,10 @@ class BalanceCard extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                "R\$ ${totalBalance.toStringAsFixed(2).replaceAll(".", ",")}",
+                NumberFormat.currency(locale: 'pt-BR', symbol: 'R\$')
+                    .format(totalBalance),
                 style: const TextStyle(
-                  fontSize: 36,
+                  fontSize: 30,
                 ),
               ),
               const SizedBox(height: 18),
@@ -67,8 +69,11 @@ class BalanceCard extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "R\$ ${totalIncome.toStringAsFixed(2).replaceAll(".", ",")}",
-                        style: const TextStyle(fontSize: 28),
+                        NumberFormat.currency(locale: 'pt-BR', symbol: 'R\$')
+                            .format(totalIncome),
+                        style: const TextStyle(
+                          fontSize: 24,
+                        ),
                       ),
                     ],
                   ),
@@ -87,8 +92,9 @@ class BalanceCard extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        "R\$ ${totalOutcome.toStringAsFixed(2).replaceAll(".", ",")}",
-                        style: const TextStyle(fontSize: 28),
+                        NumberFormat.currency(locale: 'pt-BR', symbol: 'R\$')
+                            .format(totalOutcome),
+                        style: const TextStyle(fontSize: 24),
                       ),
                     ],
                   ),

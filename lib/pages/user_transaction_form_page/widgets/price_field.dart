@@ -2,6 +2,7 @@ import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expenses/blocs/transaction_form/transaction_form_bloc.dart';
 
 class PriceField extends StatelessWidget {
@@ -30,7 +31,7 @@ class PriceField extends StatelessWidget {
                 ),
                 initialValue: state.price == 0.0
                     ? null
-                    : state.price.toStringAsFixed(2).replaceAll(".", ","),
+                    : NumberFormat.decimalPattern('pt-BR').format(state.price),
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),

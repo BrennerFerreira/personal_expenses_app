@@ -180,26 +180,26 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                                       ? "Receita"
                                       : "Despesa",
                                 ),
-                              if (!state.originTransaction!.isInstallment)
-                                attributeRow(
-                                  context,
-                                  preffix: "Valor: ",
-                                  attribute:
-                                      "R\$ ${state.originTransaction!.price.toStringAsFixed(2).replaceAll(".", ",")}",
-                                ),
                               if (state.originTransaction!.isInstallment)
                                 attributeRow(
                                   context,
                                   preffix: "Valor total: ",
-                                  attribute:
-                                      "R\$ ${(state.originTransaction!.price * state.originTransaction!.numberOfInstallments).toStringAsFixed(2).replaceAll(".", ",")}",
+                                  attribute: NumberFormat.currency(
+                                          locale: 'pt-BR', symbol: "R\$")
+                                      .format(state.originTransaction!.price *
+                                          state.originTransaction!
+                                              .numberOfInstallments),
                                 ),
-                              if (state.originTransaction!.isInstallment)
+                              if (!state.originTransaction!.isInstallment)
                                 attributeRow(
                                   context,
-                                  preffix: "Valor da parcela: ",
-                                  attribute:
-                                      "R\$ ${state.originTransaction!.price.toStringAsFixed(2).replaceAll(".", ",")}",
+                                  preffix:
+                                      state.originTransaction!.isInstallment
+                                          ? "Valor da parcela: "
+                                          : "Valor: ",
+                                  attribute: NumberFormat.currency(
+                                          locale: 'pt-BR', symbol: "R\$")
+                                      .format(state.originTransaction!.price),
                                 ),
                               if (state.originTransaction!.isInstallment)
                                 attributeRow(

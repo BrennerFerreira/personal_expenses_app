@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:personal_expenses/blocs/home_page/future_transactions_card/future_transactions_card_bloc.dart';
 import 'package:personal_expenses/pages/common/blurred_card.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
@@ -75,9 +76,12 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                                             size: 30,
                                           ),
                                           Text(
-                                            "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            NumberFormat.currency(
+                                                    locale: 'pt-BR',
+                                                    symbol: "R\$")
+                                                .format(state.income),
                                             style: const TextStyle(
-                                              fontSize: 30,
+                                              fontSize: 24,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -96,9 +100,12 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                                             size: 30,
                                           ),
                                           Text(
-                                            "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            NumberFormat.currency(
+                                                    locale: 'pt-BR',
+                                                    symbol: "R\$")
+                                                .format(state.outcome),
                                             style: const TextStyle(
-                                              fontSize: 30,
+                                              fontSize: 24,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

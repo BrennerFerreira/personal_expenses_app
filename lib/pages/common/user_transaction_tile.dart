@@ -45,7 +45,8 @@ class UserTransactionTile extends StatelessWidget {
             ),
           const SizedBox(width: 5),
           Text(
-            "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
+            NumberFormat.currency(locale: 'pt-Br', symbol: "R\$")
+                .format(transaction.price),
             style: const TextStyle(fontSize: 18),
           ),
         ],
