@@ -77,33 +77,33 @@ class _DateRangePageState extends State<DateRangePage> {
                 } else if (state is DateRangePageLoadSuccess) {
                   return Expanded(
                     child: BlurredCard(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(height: 10),
-                          DateRangeBalanceCard(
-                            totalIncome: state.income,
-                            totalOutcome: state.outcome,
-                            highestIncome: state.highestIncome,
-                            highestOutcome: state.highestOutcome,
-                          ),
-                          if (state.transactionList.isNotEmpty)
-                            const Text(
-                              "Transações no período:",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                      child: state.transactionList.isEmpty
+                          ? const Center(
+                              child: Text(
+                                "Não há transações para o período selecionado.",
+                                textAlign: TextAlign.center,
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          Expanded(
-                            child: state.transactionList.isEmpty
-                                ? const Center(
-                                    child: Text(
-                                      "Não há transações para o período selecionado.",
-                                      textAlign: TextAlign.center,
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 10),
+                                DateRangeBalanceCard(
+                                  totalIncome: state.income,
+                                  totalOutcome: state.outcome,
+                                  highestIncome: state.highestIncome,
+                                  highestOutcome: state.highestOutcome,
+                                ),
+                                if (state.transactionList.isNotEmpty)
+                                  const Text(
+                                    "Transações no período:",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
-                                : ListView.builder(
+                                    textAlign: TextAlign.center,
+                                  ),
+                                Expanded(
+                                  child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: state.transactionList.length,
                                     itemBuilder: (_, index) {
@@ -130,10 +130,10 @@ class _DateRangePageState extends State<DateRangePage> {
                                       );
                                     },
                                   ),
-                          ),
-                          const SizedBox(height: 10),
-                        ],
-                      ),
+                                ),
+                                const SizedBox(height: 10),
+                              ],
+                            ),
                     ),
                   );
                 } else {

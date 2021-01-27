@@ -73,6 +73,12 @@ class _AccountsCardState extends State<AccountsCard> {
                                     },
                                   ),
                           ),
+                          const Text(
+                            "Mais detalhes",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           const SizedBox(height: 10),
                         ],
                       );

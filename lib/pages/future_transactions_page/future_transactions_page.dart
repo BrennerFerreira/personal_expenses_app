@@ -66,29 +66,29 @@ class _FutureTransactionsPageState extends State<FutureTransactionsPage> {
                 } else if (state is FutureTransactionsPageLoadSuccess) {
                   return Expanded(
                     child: BlurredCard(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(height: 10),
-                          FutureTransactionsBalanceCard(
-                            totalIncome: state.income,
-                            totalOutcome: state.outcome,
-                            highestIncome: state.highestIncome,
-                            highestOutcome: state.highestOutcome,
-                          ),
-                          const SizedBox(height: 10),
-                          if (state.transactionList.isNotEmpty)
-                            const Text("Transações agendadas:"),
-                          const SizedBox(height: 10),
-                          Expanded(
-                            child: state.transactionList.isEmpty
-                                ? const Center(
-                                    child: Text(
-                                      "Não há transações agendadas.",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  )
-                                : ListView.builder(
+                      child: state.transactionList.isEmpty
+                          ? const Center(
+                              child: Text(
+                                "Não há transações agendadas.",
+                                textAlign: TextAlign.center,
+                              ),
+                            )
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const SizedBox(height: 10),
+                                FutureTransactionsBalanceCard(
+                                  totalIncome: state.income,
+                                  totalOutcome: state.outcome,
+                                  highestIncome: state.highestIncome,
+                                  highestOutcome: state.highestOutcome,
+                                ),
+                                const SizedBox(height: 10),
+                                if (state.transactionList.isNotEmpty)
+                                  const Text("Transações agendadas:"),
+                                const SizedBox(height: 10),
+                                Expanded(
+                                  child: ListView.builder(
                                     itemCount: state.transactionList.length,
                                     itemBuilder: (context, index) {
                                       return GestureDetector(
@@ -114,9 +114,9 @@ class _FutureTransactionsPageState extends State<FutureTransactionsPage> {
                                       );
                                     },
                                   ),
-                          ),
-                        ],
-                      ),
+                                ),
+                              ],
+                            ),
                     ),
                   );
                 } else {

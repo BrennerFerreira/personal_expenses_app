@@ -48,71 +48,85 @@ class _DateRangeTransactionsCardState extends State<DateRangeTransactionsCard> {
                 if (state is DateRangeTransactionsCardLoadInProgress) {
                   return CommonCircularIndicator();
                 } else if (state is DateRangeTransactionsCardLoadSuccess) {
-                  return Center(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        const Text(
-                          "Este mês:",
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 20),
-                        Text(
-                          "R\$ ${state.balance.toStringAsFixed(2).replaceAll(".", ",")}",
-                          style: const TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              const Text(
+                                "Este mês:",
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                "R\$ ${state.balance.toStringAsFixed(2).replaceAll(".", ",")}",
+                                style: const TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text("Entradas"),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.arrow_upward,
+                                            size: 25,
+                                          ),
+                                          Text(
+                                            "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            style: const TextStyle(
+                                              fontSize: 30,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text("Saídas"),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.arrow_downward,
+                                            size: 25,
+                                          ),
+                                          Text(
+                                            "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            style: const TextStyle(
+                                              fontSize: 30,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                        const SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("Entradas"),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.arrow_upward,
-                                      size: 25,
-                                    ),
-                                    Text(
-                                      "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("Saídas"),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.arrow_downward,
-                                      size: 25,
-                                    ),
-                                    Text(
-                                      "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
+                      ),
+                      const Text(
+                        "Mais detalhes",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
                         ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   );
                 } else {
                   return CommonErrorText();

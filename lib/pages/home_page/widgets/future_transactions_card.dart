@@ -48,78 +48,92 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                 if (state is FutureTransactionsCardLoadInProgress) {
                   return CommonCircularIndicator();
                 } else if (state is FutureTransactionsCardLoadSuccess) {
-                  return Center(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        const Text(
-                          "Transações agendadas:",
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("Entradas"),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.arrow_upward,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              const Text(
+                                "Transações agendadas:",
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 15),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text("Entradas"),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.arrow_upward,
+                                            size: 30,
+                                          ),
+                                          Text(
+                                            "R\$ ${state.income.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            style: const TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text("Saídas"),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.arrow_downward,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
-                                      style: const TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
+                                    ],
+                                  ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text("Saídas"),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.arrow_downward,
+                                            size: 30,
+                                          ),
+                                          Text(
+                                            "R\$ ${state.outcome.toStringAsFixed(2).replaceAll(".", ",")}",
+                                            style: const TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 15),
+                              if (state.nextTransaction != null)
+                                const Text(
+                                  "Próxima transação agendada:",
+                                  textAlign: TextAlign.center,
                                 ),
-                              ],
-                            ),
-                          ],
+                              if (state.nextTransaction != null)
+                                UserTransactionTile(
+                                    transaction: state.nextTransaction!)
+                              else
+                                const Text(
+                                  "Nenhuma transação agendada.",
+                                  textAlign: TextAlign.center,
+                                ),
+                            ],
+                          ),
                         ),
-                        const SizedBox(height: 15),
-                        if (state.nextTransaction != null)
-                          const Text(
-                            "Próxima transação agendada:",
-                            textAlign: TextAlign.center,
-                          ),
-                        if (state.nextTransaction != null)
-                          UserTransactionTile(
-                              transaction: state.nextTransaction!)
-                        else
-                          const Text(
-                            "Nenhuma transação agendada.",
-                            textAlign: TextAlign.center,
-                          ),
-                      ],
-                    ),
+                      ),
+                      const Text(
+                        "Mais detalhes",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   );
                 } else {
                   return CommonErrorText();
