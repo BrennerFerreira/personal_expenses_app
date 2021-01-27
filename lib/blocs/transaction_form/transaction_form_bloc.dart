@@ -186,9 +186,15 @@ class TransactionFormBloc
       if (state.price <= 0.0) {
         priceError = "Por favor, selecione um valor para a transação.";
       }
+      if (state.price > 9999999.99) {
+        priceError = "Valor acima do máximo aceito.";
+      }
       if (state.isInstallments && state.numberOfInstallments < 1) {
         numberOfInstallmentsError =
             "Por favor, selecione um número válido de parcelas.";
+      }
+      if (state.isInstallments && state.numberOfInstallments > 60) {
+        numberOfInstallmentsError = "O número máximo de parcelas aceito é 60.";
       }
       if (titleError == null &&
           accountError == null &&
