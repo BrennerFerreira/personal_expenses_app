@@ -8,9 +8,9 @@ class AccountField extends StatelessWidget {
     return BlocBuilder<TransactionFormBloc, TransactionFormState>(
       builder: (context, state) {
         final double _newAccountContainerHeight =
-            state.accountList.isEmpty || state.newAccount ? 86.0 : 0.0;
+            state.accountList.isEmpty || state.newAccount ? 85.0 : 0.0;
         final double _existingAccountContainerHeight =
-            state.accountList.isEmpty || state.newAccount ? 0.0 : 50.0;
+            state.accountList.isEmpty || state.newAccount ? 0.0 : 45.0;
         final double _existingAccountErrorContainerHeight =
             state.accountList.isNotEmpty &&
                     !state.newAccount &&
@@ -21,6 +21,7 @@ class AccountField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             RadioListTile<bool>(
+              contentPadding: EdgeInsets.zero,
               title: Text(
                 "Usar conta existente",
                 style: TextStyle(
@@ -121,6 +122,7 @@ class AccountField extends StatelessWidget {
             ),
             RadioListTile<bool>(
               title: const Text("Adicionar nova conta"),
+              contentPadding: EdgeInsets.zero,
               value: true,
               groupValue: state.accountList.isEmpty
                   ? state.accountList.isEmpty
@@ -141,6 +143,7 @@ class AccountField extends StatelessWidget {
                         hintText: "Dê um nome para a nova conta.",
                         errorText: state.accountError,
                       ),
+                      initialValue: state.newAccount ? state.account : null,
                       textCapitalization: TextCapitalization.sentences,
                       onChanged: (newAccountName) =>
                           BlocProvider.of<TransactionFormBloc>(
@@ -154,6 +157,7 @@ class AccountField extends StatelessWidget {
                     )
                   : Container(),
             ),
+            const SizedBox(height: 20),
           ],
         );
       },

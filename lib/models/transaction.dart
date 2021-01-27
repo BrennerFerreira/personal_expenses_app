@@ -89,6 +89,6 @@ class UserTransaction extends Equatable {
 
   @override
   String toString() {
-    return "id: $id, title: $title, account: $account, price: $price, isIncome: $isIncome, date: $date, isInstallment: $isInstallment, numberOfInstallments: $numberOfInstallments, installmentId: $installmentId, isBetweenAccounts: $isBetweenAccounts, betweenAccountsId: $betweenAccountsId, savedAt: $savedAt";
+    return "UserTransaction(id: $id, title: $title, account: $account, price: $price, isIncome: $isIncome, date: $date, isInstallment: $isInstallment, numberOfInstallments: $numberOfInstallments, installmentId: $installmentId, isBetweenAccounts: $isBetweenAccounts, betweenAccountsId: $betweenAccountsId, savedAt: $savedAt)";
   }
 }

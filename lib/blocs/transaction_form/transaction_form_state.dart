@@ -16,6 +16,7 @@ class TransactionFormState extends Equatable {
   final int numberOfInstallments;
   final String? installmentsId;
   final bool isBetweenAccounts;
+  final String? betweenAccountsId;
   final String destinationAccount;
   final bool destinationNewAccount;
   final List<String> destinationAccountList;
@@ -41,6 +42,7 @@ class TransactionFormState extends Equatable {
     this.numberOfInstallments = 1,
     this.installmentsId,
     this.isBetweenAccounts = false,
+    this.betweenAccountsId,
     this.destinationAccount = "",
     this.destinationNewAccount = false,
     this.destinationAccountList = const [],
@@ -69,6 +71,7 @@ class TransactionFormState extends Equatable {
     int? numberOfInstallments,
     String? installmentsId,
     bool? isBetweenAccounts,
+    String? betweenAccountsId,
     String? destinationAccount,
     bool? destinationNewAccount,
     List<String>? destinationAccountList,
@@ -94,6 +97,7 @@ class TransactionFormState extends Equatable {
       numberOfInstallments: numberOfInstallments ?? this.numberOfInstallments,
       installmentsId: installmentsId ?? this.installmentsId,
       isBetweenAccounts: isBetweenAccounts ?? this.isBetweenAccounts,
+      betweenAccountsId: betweenAccountsId ?? this.betweenAccountsId,
       destinationAccount: destinationAccount ?? this.destinationAccount,
       destinationNewAccount:
           destinationNewAccount ?? this.destinationNewAccount,

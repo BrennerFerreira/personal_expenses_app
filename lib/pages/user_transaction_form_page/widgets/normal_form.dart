@@ -10,21 +10,19 @@ import 'package:personal_expenses/pages/user_transaction_form_page/widgets/title
 class NormalForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView(
-        children: [
-          EditAllInstallmentsField(),
-          TitleField(),
-          const SizedBox(height: 10),
-          AccountField(),
-          PriceField(),
-          const SizedBox(height: 20),
-          IsIncomeField(),
-          DateField(),
-          InstallmentsField(),
-          const SizedBox(height: 20),
-        ],
-      ),
+    return ListView(
+      children: [
+        EditAllInstallmentsField(),
+        TitleField(),
+        const SizedBox(height: 10),
+        AccountField(),
+        PriceField(),
+        const SizedBox(height: 20),
+        IsIncomeField(),
+        DateField(),
+        InstallmentsField(),
+        const SizedBox(height: 20),
+      ],
     );
   }
 }

@@ -8,11 +8,11 @@ import 'package:personal_expenses/pages/user_transaction_form_page/widgets/betwe
 import 'package:personal_expenses/pages/user_transaction_form_page/widgets/normal_form.dart';
 
 class UserTransactionFormPage extends StatefulWidget {
-  final UserTransaction? originTransaction;
+  final UserTransaction? transaction;
 
   const UserTransactionFormPage({
     Key? key,
-    this.originTransaction,
+    this.transaction,
   }) : super(key: key);
 
   static final _formKey = GlobalKey<FormState>();
@@ -23,15 +23,16 @@ class UserTransactionFormPage extends StatefulWidget {
 }
 
 class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
+  final _controller = PageController();
   @override
   void initState() {
     super.initState();
-    if (widget.originTransaction == null) {
+    if (widget.transaction == null) {
       BlocProvider.of<TransactionFormBloc>(context).add(AddTransaction());
     } else {
       BlocProvider.of<TransactionFormBloc>(context).add(
         EditTransaction(
-          originTransaction: widget.originTransaction!,
+          transaction: widget.transaction!,
         ),
       );
     }
@@ -158,10 +159,52 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            if (state.isNew || !state.isBetweenAccounts)
-                              NormalForm(),
-                            if (state.isNew || state.isBetweenAccounts)
-                              BetweenAccountsForm(),
+                            if (state.isNew)
+                              CheckboxListTile(
+                                title:
+                                    const Text("Transaferência entre contas"),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                contentPadding: EdgeInsets.zero,
+                                value: state.isBetweenAccounts,
+                                onChanged: (newOption) {
+                                  BlocProvider.of<TransactionFormBloc>(context)
+                                      .add(
+                                    IsBetweenAccountsChanged(
+                                      newOption: newOption!,
+                                    ),
+                                  );
+                                  if (newOption) {
+                                    _controller.animateToPage(
+                                      1,
+                                      curve: Curves.linear,
+                                      duration: const Duration(
+                                        milliseconds: 500,
+                                      ),
+                                    );
+                                  } else {
+                                    _controller.animateToPage(
+                                      0,
+                                      curve: Curves.linear,
+                                      duration: const Duration(
+                                        milliseconds: 500,
+                                      ),
+                                    );
+                                  }
+                                },
+                              ),
+                            Expanded(
+                              child: PageView(
+                                controller: _controller,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  if (state.isNew || !state.isBetweenAccounts)
+                                    NormalForm(),
+                                  if (state.isNew || state.isBetweenAccounts)
+                                    BetweenAccountsForm(),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       );

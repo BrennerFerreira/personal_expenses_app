@@ -92,7 +92,7 @@ class TransactionDetailsPage extends StatelessWidget {
                             ),
                           ),
                           builder: (context) => UserTransactionFormPage(
-                            originTransaction: transaction,
+                            transaction: transaction,
                           ),
                         );
                       },

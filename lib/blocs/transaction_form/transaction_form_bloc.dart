@@ -32,25 +32,49 @@ class TransactionFormBloc
     } else if (event is EditTransaction) {
       yield TransactionFormState();
       final List<String> accountList = await accountRepository.getAllAccounts();
-      yield TransactionFormState(
-        isLoading: false,
-        accountList: accountList,
-        id: event.originTransaction.id,
-        isNew: false,
-        account: event.originTransaction.isBetweenAccounts
-            ? ""
-            : event.originTransaction.account,
-        title: event.originTransaction.title.replaceAll(
-          RegExp(r" - (\d+) de (\d+)$"),
-          "",
-        ),
-        price: event.originTransaction.price,
-        isIncome: event.originTransaction.isIncome,
-        date: event.originTransaction.date,
-        isInstallments: event.originTransaction.isInstallment,
-        numberOfInstallments: event.originTransaction.numberOfInstallments,
-        installmentsId: event.originTransaction.installmentId,
-      );
+      if (event.transaction.isBetweenAccounts) {
+        final Map<String, UserTransaction> transactions =
+            await transactionRepository.getBetweenAccountsTransaction(
+          event.transaction.betweenAccountsId!,
+        );
+        final UserTransaction income =
+            transactions['income'] as UserTransaction;
+        final UserTransaction outcome =
+            transactions['outcome'] as UserTransaction;
+        final List<String> destinationAccountList = [...accountList]
+          ..remove(outcome.account);
+        yield TransactionFormState(
+          isLoading: false,
+          accountList: accountList,
+          isNew: false,
+          account: outcome.account,
+          title: outcome.title,
+          date: outcome.date,
+          isBetweenAccounts: outcome.isBetweenAccounts,
+          betweenAccountsId: outcome.betweenAccountsId,
+          destinationAccount: income.account,
+          destinationAccountList: destinationAccountList,
+          price: outcome.price,
+        );
+      } else {
+        yield TransactionFormState(
+          isLoading: false,
+          accountList: accountList,
+          id: event.transaction.id,
+          isNew: false,
+          account: event.transaction.account,
+          title: event.transaction.title.replaceAll(
+            RegExp(r" - (\d+) de (\d+)$"),
+            "",
+          ),
+          price: event.transaction.price,
+          isIncome: event.transaction.isIncome,
+          date: event.transaction.date,
+          isInstallments: event.transaction.isInstallment,
+          numberOfInstallments: event.transaction.numberOfInstallments,
+          installmentsId: event.transaction.installmentId,
+        );
+      }
     } else if (event is EditAllInstallmentsChanged) {
       yield state.copyWith(
         editAllInstallments: event.newEditAllInstallments,
@@ -87,6 +111,7 @@ class TransactionFormBloc
         account: event.newAccount,
         destinationAccountList: destinationAccountList,
         accountError: "",
+        destinationAccountError: "",
       );
     } else if (event is DestinationNewAccountChanged) {
       yield state.copyWith(
@@ -175,6 +200,30 @@ class TransactionFormBloc
 
         if (state.isNew) {
           if (state.isBetweenAccounts) {
+            final int id = DateTime.now().millisecondsSinceEpoch;
+            await transactionRepository.saveTransaction(
+              UserTransaction(
+                title: state.title,
+                account: state.account,
+                date: state.date!,
+                savedAt: DateTime.now(),
+                price: state.price,
+                isBetweenAccounts: true,
+                betweenAccountsId: id.toString(),
+              ),
+            );
+            await transactionRepository.saveTransaction(
+              UserTransaction(
+                title: state.title,
+                account: state.destinationAccount,
+                date: state.date!,
+                savedAt: DateTime.now(),
+                price: state.price,
+                isIncome: true,
+                isBetweenAccounts: true,
+                betweenAccountsId: id.toString(),
+              ),
+            );
           } else if (state.isInstallments) {
             final int id = DateTime.now().millisecondsSinceEpoch;
             for (int i = 0; i < state.numberOfInstallments; i++) {
@@ -199,13 +248,12 @@ class TransactionFormBloc
                       state.date!.month + i + 1,
                       0,
                     ),
-                    price: state.price,
+                    price: state.price / state.numberOfInstallments,
                     savedAt: DateTime.now(),
                     isIncome: state.isIncome,
                     isInstallment: true,
                     numberOfInstallments: state.numberOfInstallments,
-                    installmentId:
-                        "${state.title}-$id-${state.numberOfInstallments}",
+                    installmentId: id.toString(),
                   ),
                 );
               } else {
@@ -219,13 +267,12 @@ class TransactionFormBloc
                       state.date!.month + i,
                       state.date!.day,
                     ),
-                    price: state.price,
+                    price: state.price / state.numberOfInstallments,
                     savedAt: DateTime.now(),
                     isIncome: state.isIncome,
                     isInstallment: true,
                     numberOfInstallments: state.numberOfInstallments,
-                    installmentId:
-                        "${state.title}-$id-${state.numberOfInstallments}",
+                    installmentId: id.toString(),
                   ),
                 );
               }
@@ -243,7 +290,36 @@ class TransactionFormBloc
             );
           }
         } else {
-          if (state.editAllInstallments) {
+          if (state.isBetweenAccounts) {
+            await transactionRepository
+                .deleteTransactionByBetweenAccounId(state.betweenAccountsId!);
+            if (state.isBetweenAccounts) {
+              final int id = DateTime.now().millisecondsSinceEpoch;
+              await transactionRepository.saveTransaction(
+                UserTransaction(
+                  title: state.title,
+                  account: state.account,
+                  date: state.date!,
+                  savedAt: DateTime.now(),
+                  price: state.price,
+                  isBetweenAccounts: true,
+                  betweenAccountsId: id.toString(),
+                ),
+              );
+              await transactionRepository.saveTransaction(
+                UserTransaction(
+                  title: state.title,
+                  account: state.destinationAccount,
+                  date: state.date!,
+                  savedAt: DateTime.now(),
+                  price: state.price,
+                  isIncome: true,
+                  isBetweenAccounts: true,
+                  betweenAccountsId: id.toString(),
+                ),
+              );
+            }
+          } else if (state.editAllInstallments) {
             await transactionRepository.deleteTransactionByInstallmentId(
               state.installmentsId!,
             );
@@ -271,13 +347,12 @@ class TransactionFormBloc
                         state.date!.month + i + 1,
                         0,
                       ),
-                      price: state.price,
+                      price: state.price / state.numberOfInstallments,
                       savedAt: DateTime.now(),
                       isIncome: state.isIncome,
                       isInstallment: true,
                       numberOfInstallments: state.numberOfInstallments,
-                      installmentId:
-                          "${state.title}-$id-${state.numberOfInstallments}",
+                      installmentId: id.toString(),
                     ),
                   );
                 } else {
@@ -291,13 +366,12 @@ class TransactionFormBloc
                         state.date!.month + i,
                         state.date!.day,
                       ),
-                      price: state.price,
+                      price: state.price / state.numberOfInstallments,
                       savedAt: DateTime.now(),
                       isIncome: state.isIncome,
                       isInstallment: true,
                       numberOfInstallments: state.numberOfInstallments,
-                      installmentId:
-                          "${state.title}-$id-${state.numberOfInstallments}",
+                      installmentId: id.toString(),
                     ),
                   );
                 }
@@ -337,6 +411,7 @@ class TransactionFormBloc
         yield state.copyWith(
           titleError: titleError,
           accountError: accountError,
+          destinationAccountError: destinationAccountError,
           priceError: priceError,
           numberOfInstallmentsError: numberOfInstallmentsError,
         );

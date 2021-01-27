@@ -22,13 +22,18 @@ class TransactionDetailsBloc
       yield state.copyWith(
         isLoading: true,
       );
-
-      if (state.deleteAllInstallments) {
-        await transactionRepository.deleteTransactionByInstallmentId(
-          event.transaction.installmentId!,
+      if (event.transaction.isBetweenAccounts) {
+        await transactionRepository.deleteTransactionByBetweenAccounId(
+          event.transaction.betweenAccountsId!,
         );
       } else {
-        await transactionRepository.deleteTransaction(event.transaction.id!);
+        if (state.deleteAllInstallments) {
+          await transactionRepository.deleteTransactionByInstallmentId(
+            event.transaction.installmentId!,
+          );
+        } else {
+          await transactionRepository.deleteTransaction(event.transaction.id!);
+        }
       }
 
       yield TransactionDeleteSuccess();

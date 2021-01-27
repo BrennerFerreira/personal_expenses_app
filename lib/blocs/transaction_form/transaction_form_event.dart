@@ -10,23 +10,19 @@ abstract class TransactionFormEvent extends Equatable {
 class AddTransaction extends TransactionFormEvent {}
 
 class EditTransaction extends TransactionFormEvent {
-  final UserTransaction originTransaction;
-  final UserTransaction? destinationTransaction;
+  final UserTransaction transaction;
 
   const EditTransaction({
-    required this.originTransaction,
-    this.destinationTransaction,
+    required this.transaction,
   });
 
   @override
   List<Object?> get props => [
-        originTransaction,
-        destinationTransaction,
+        transaction,
       ];
 
   @override
-  String toString() =>
-      'EditTransaction(originTransaction: $originTransaction, destinationTransaction: $destinationTransaction)';
+  String toString() => 'EditTransaction(transaction: $transaction)';
 }
 
 class FormCanceled extends TransactionFormEvent {
