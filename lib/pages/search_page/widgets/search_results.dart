@@ -34,32 +34,38 @@ class SearchResults extends StatelessWidget {
               } else if (state is SearchPageLoadSuccess) {
                 return Flexible(
                   child: BlurredCard(
-                    child: ListView.separated(
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
-                      itemCount: state.results.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => TransactionDetailsPage(
+                    child: state.results.isEmpty
+                        ? Center(
+                            child: query.length <= 3
+                                ? const Text("O termo procurado é muito curto.")
+                                : const Text("Nenhuma transação encontrada."),
+                          )
+                        : ListView.separated(
+                            separatorBuilder: (context, index) {
+                              return const Divider();
+                            },
+                            itemCount: state.results.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => TransactionDetailsPage(
+                                        transaction: state.suggestions[index],
+                                        fromSearch: true,
+                                        lastPage: MaterialPageRoute(
+                                          builder: (_) => HomePage(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: UserTransactionTile(
                                   transaction: state.suggestions[index],
-                                  fromSearch: true,
-                                  lastPage: MaterialPageRoute(
-                                    builder: (_) => HomePage(),
-                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                          child: UserTransactionTile(
-                            transaction: state.suggestions[index],
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 );
               } else {

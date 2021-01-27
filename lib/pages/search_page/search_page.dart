@@ -15,11 +15,13 @@ class Search extends SearchDelegate {
             Icons.close,
             size: 35,
           ),
-          onPressed: () {
-            query = "";
-          },
+          onPressed: query.isEmpty
+              ? null
+              : () {
+                  query = "";
+                },
         ),
-      )
+      ),
     ];
   }
 
