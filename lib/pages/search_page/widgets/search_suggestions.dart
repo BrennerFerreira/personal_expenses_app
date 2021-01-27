@@ -28,13 +28,17 @@ class SearchSuggestions extends StatelessWidget {
             return CommonCircularIndicator();
           } else if (state is SearchPageLoadSuccess) {
             return state.suggestions.isEmpty
-                ? query.length <= 3
+                ? query.isEmpty
                     ? const Center(
-                        child: Text("Digite um termo de busca maior."),
+                        child: Text("Digite um termo de busca."),
                       )
-                    : const Center(
-                        child: Text("Nenhuma transação encontrada."),
-                      )
+                    : query.length <= 3
+                        ? const Center(
+                            child: Text("Digite um termo de busca maior."),
+                          )
+                        : const Center(
+                            child: Text("Nenhuma transação encontrada."),
+                          )
                 : Container(
                     margin: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height * 0.02,
