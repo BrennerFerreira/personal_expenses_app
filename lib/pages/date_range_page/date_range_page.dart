@@ -42,96 +42,107 @@ class _DateRangePageState extends State<DateRangePage> {
   Widget build(BuildContext context) {
     return BlocProvider<DateRangePageBloc>(
       create: (context) => dateRangePageBloc,
-      child: CommonScaffold(
-        title: "Análise por Período",
-        leadingButton: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 35,
-          ),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => HomePage(),
-                ),
-                (route) => false);
-          },
-        ),
-        children: [
-          DateRangeSelector(
-            dateRangePageBloc: dateRangePageBloc,
-          ),
-          BlocBuilder<DateRangePageBloc, DateRangePageState>(
-            builder: (context, state) {
-              if (state is DateRangePageLoadInProgress) {
-                return CommonCircularIndicator();
-              } else if (state is DateRangePageLoadSuccess) {
-                return Expanded(
-                  child: BlurredCard(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 10),
-                        DateRangeBalanceCard(
-                          totalIncome: state.income,
-                          totalOutcome: state.outcome,
-                          highestIncome: state.highestIncome,
-                          highestOutcome: state.highestOutcome,
-                        ),
-                        if (state.transactionList.isNotEmpty)
-                          const Text(
-                            "Transações no período:",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        Expanded(
-                          child: state.transactionList.isEmpty
-                              ? const Center(
-                                  child: Text(
-                                    "Não há transações para o período selecionado.",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                )
-                              : ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: state.transactionList.length,
-                                  itemBuilder: (_, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pushReplacement(
-                                          MaterialPageRoute(
-                                            builder: (_) =>
-                                                TransactionDetailsPage(
-                                              transaction:
-                                                  state.transactionList[index],
-                                              lastPage: MaterialPageRoute(
-                                                builder: (_) => DateRangePage(),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: UserTransactionTile(
-                                        transaction:
-                                            state.transactionList[index],
-                                      ),
-                                    );
-                                  },
-                                ),
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    ),
+      child: WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => HomePage(),
+              ),
+              (route) => false);
+          return true;
+        },
+        child: CommonScaffold(
+          title: "Análise por Período",
+          leadingButton: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 35,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (_) => HomePage(),
                   ),
-                );
-              } else {
-                return CommonErrorText();
-              }
+                  (route) => false);
             },
           ),
-        ],
+          children: [
+            DateRangeSelector(
+              dateRangePageBloc: dateRangePageBloc,
+            ),
+            BlocBuilder<DateRangePageBloc, DateRangePageState>(
+              builder: (context, state) {
+                if (state is DateRangePageLoadInProgress) {
+                  return CommonCircularIndicator();
+                } else if (state is DateRangePageLoadSuccess) {
+                  return Expanded(
+                    child: BlurredCard(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const SizedBox(height: 10),
+                          DateRangeBalanceCard(
+                            totalIncome: state.income,
+                            totalOutcome: state.outcome,
+                            highestIncome: state.highestIncome,
+                            highestOutcome: state.highestOutcome,
+                          ),
+                          if (state.transactionList.isNotEmpty)
+                            const Text(
+                              "Transações no período:",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          Expanded(
+                            child: state.transactionList.isEmpty
+                                ? const Center(
+                                    child: Text(
+                                      "Não há transações para o período selecionado.",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: state.transactionList.length,
+                                    itemBuilder: (_, index) {
+                                      return GestureDetector(
+                                        onTap: () {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (_) =>
+                                                  TransactionDetailsPage(
+                                                transaction: state
+                                                    .transactionList[index],
+                                                lastPage: MaterialPageRoute(
+                                                  builder: (_) =>
+                                                      DateRangePage(),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: UserTransactionTile(
+                                          transaction:
+                                              state.transactionList[index],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    ),
+                  );
+                } else {
+                  return CommonErrorText();
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

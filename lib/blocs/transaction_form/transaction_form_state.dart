@@ -15,8 +15,13 @@ class TransactionFormState extends Equatable {
   final bool isInstallments;
   final int numberOfInstallments;
   final String? installmentsId;
+  final bool isBetweenAccounts;
+  final String destinationAccount;
+  final bool destinationNewAccount;
+  final List<String> destinationAccountList;
   final String? titleError;
   final String? accountError;
+  final String? destinationAccountError;
   final String? priceError;
   final String? numberOfInstallmentsError;
 
@@ -35,8 +40,13 @@ class TransactionFormState extends Equatable {
     this.isInstallments = false,
     this.numberOfInstallments = 1,
     this.installmentsId,
+    this.isBetweenAccounts = false,
+    this.destinationAccount = "",
+    this.destinationNewAccount = false,
+    this.destinationAccountList = const [],
     this.titleError,
     this.accountError,
+    this.destinationAccountError,
     this.priceError,
     this.numberOfInstallmentsError,
   }) {
@@ -58,8 +68,13 @@ class TransactionFormState extends Equatable {
     bool? isInstallments,
     int? numberOfInstallments,
     String? installmentsId,
+    bool? isBetweenAccounts,
+    String? destinationAccount,
+    bool? destinationNewAccount,
+    List<String>? destinationAccountList,
     String? titleError,
     String? accountError,
+    String? destinationAccountError,
     String? priceError,
     String? numberOfInstallmentsError,
   }) {
@@ -78,9 +93,18 @@ class TransactionFormState extends Equatable {
       isInstallments: isInstallments ?? this.isInstallments,
       numberOfInstallments: numberOfInstallments ?? this.numberOfInstallments,
       installmentsId: installmentsId ?? this.installmentsId,
+      isBetweenAccounts: isBetweenAccounts ?? this.isBetweenAccounts,
+      destinationAccount: destinationAccount ?? this.destinationAccount,
+      destinationNewAccount:
+          destinationNewAccount ?? this.destinationNewAccount,
+      destinationAccountList:
+          destinationAccountList ?? this.destinationAccountList,
       titleError: titleError == "" ? null : titleError ?? this.titleError,
       accountError:
           accountError == "" ? null : accountError ?? this.accountError,
+      destinationAccountError: destinationAccountError == ""
+          ? null
+          : destinationAccountError ?? this.destinationAccountError,
       priceError: priceError == "" ? null : priceError ?? this.priceError,
       numberOfInstallmentsError: numberOfInstallmentsError == ""
           ? null
@@ -104,8 +128,13 @@ class TransactionFormState extends Equatable {
         isInstallments,
         numberOfInstallments,
         installmentsId,
+        isBetweenAccounts,
+        destinationAccount,
+        destinationNewAccount,
+        destinationAccountList,
         titleError,
         accountError,
+        destinationAccountError,
         priceError,
         numberOfInstallmentsError,
       ];

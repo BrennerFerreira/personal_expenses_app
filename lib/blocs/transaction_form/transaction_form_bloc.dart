@@ -55,6 +55,15 @@ class TransactionFormBloc
       yield state.copyWith(
         editAllInstallments: event.newEditAllInstallments,
       );
+    } else if (event is IsBetweenAccountsChanged) {
+      yield state.copyWith(
+        isBetweenAccounts: event.newOption,
+        titleError: "",
+        accountError: "",
+        destinationAccountError: "",
+        priceError: "",
+        numberOfInstallmentsError: "",
+      );
     } else if (event is TitleChanged) {
       yield state.copyWith(
         title: event.newTitle,
@@ -67,9 +76,28 @@ class TransactionFormBloc
         accountError: "",
       );
     } else if (event is AccountChanged) {
+      List<String> destinationAccountList = [];
+      if (state.isBetweenAccounts && !state.newAccount) {
+        destinationAccountList = [...state.accountList]
+          ..removeWhere((element) => element == event.newAccount);
+      } else {
+        destinationAccountList = [...state.accountList];
+      }
       yield state.copyWith(
         account: event.newAccount,
+        destinationAccountList: destinationAccountList,
         accountError: "",
+      );
+    } else if (event is DestinationNewAccountChanged) {
+      yield state.copyWith(
+        destinationNewAccount: event.newOption,
+        destinationAccount: "",
+        destinationAccountError: "",
+      );
+    } else if (event is DestinationAccountChanged) {
+      yield state.copyWith(
+        destinationAccount: event.newDestinationAccount,
+        destinationAccountError: "",
       );
     } else if (event is PriceChanged) {
       final String priceReplaced = event.newPrice.replaceAll(",", ".");
@@ -102,6 +130,7 @@ class TransactionFormBloc
     } else if (event is FormSubmitted) {
       String? titleError;
       String? accountError;
+      String? destinationAccountError;
       String? priceError;
       String? numberOfInstallmentsError;
       if (state.title.trim().isEmpty) {
@@ -113,6 +142,21 @@ class TransactionFormBloc
       if (state.newAccount && state.accountList.contains(state.account)) {
         accountError = "Já existe uma conta com este nome";
       }
+      if (state.isBetweenAccounts && state.destinationAccount.trim().isEmpty) {
+        destinationAccountError =
+            "Por favor, selecione uma conta destino para a transação.";
+      }
+      if (state.isBetweenAccounts &&
+          state.destinationNewAccount &&
+          state.accountList.contains(state.destinationAccount)) {
+        destinationAccountError = "Já existe uma conta com este nome";
+      }
+      if (state.isBetweenAccounts &&
+          state.destinationNewAccount &&
+          state.destinationAccount == state.account) {
+        destinationAccountError =
+            "As contas de origem e destino não podem ser iguais.";
+      }
       if (state.price <= 0.0) {
         priceError = "Por favor, selecione um valor para a transação.";
       }
@@ -122,6 +166,7 @@ class TransactionFormBloc
       }
       if (titleError == null &&
           accountError == null &&
+          destinationAccountError == null &&
           priceError == null &&
           numberOfInstallmentsError == null) {
         yield state.copyWith(
@@ -129,7 +174,8 @@ class TransactionFormBloc
         );
 
         if (state.isNew) {
-          if (state.isInstallments) {
+          if (state.isBetweenAccounts) {
+          } else if (state.isInstallments) {
             final int id = DateTime.now().millisecondsSinceEpoch;
             for (int i = 0; i < state.numberOfInstallments; i++) {
               if (DateTime(

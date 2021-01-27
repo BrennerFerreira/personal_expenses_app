@@ -35,140 +35,151 @@ class TransactionDetailsPage extends StatelessWidget {
             );
           }
         },
-        child: CommonScaffold(
-          leadingButton:
-              BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-            value: transactionDetailsBloc,
-            builder: (context, state) {
-              return IconButton(
-                icon: const Icon(
-                  Icons.arrow_back,
-                  size: 35,
-                ),
-                onPressed: state.isLoading
-                    ? null
-                    : () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          lastPage,
-                          (route) => false,
-                        );
-                      },
-              );
-            },
-          ),
-          actionButtons: [
-            BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-              value: transactionDetailsBloc,
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return const IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      size: 35,
-                    ),
-                    onPressed: null,
-                  );
-                } else {
-                  return IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      size: 35,
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(30),
-                          ),
-                        ),
-                        builder: (context) => UserTransactionFormPage(
-                          originTransaction: transaction,
-                        ),
-                      );
-                    },
-                  );
-                }
-              },
-            ),
-            const SizedBox(width: 15),
-            BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
+        child: WillPopScope(
+          onWillPop: () async {
+            Navigator.of(context).pushAndRemoveUntil(
+              lastPage,
+              (route) => false,
+            );
+            return true;
+          },
+          child: CommonScaffold(
+            leadingButton:
+                BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
               value: transactionDetailsBloc,
               builder: (context, state) {
                 return IconButton(
                   icon: const Icon(
-                    Icons.delete,
+                    Icons.arrow_back,
                     size: 35,
                   ),
                   onPressed: state.isLoading
                       ? null
-                      : () async {
-                          final bool? deleteTransaction =
-                              await showDialog<bool>(
-                            context: context,
-                            builder: (context) {
-                              return DeleteDialog(
-                                transaction: transaction,
-                                transactionDetailsBloc: transactionDetailsBloc,
-                              );
-                            },
+                      : () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                            lastPage,
+                            (route) => false,
                           );
-                          if (deleteTransaction != null && deleteTransaction) {
-                            transactionDetailsBloc.add(
-                              DeleteTransaction(
-                                transaction,
-                              ),
-                            );
-                          }
                         },
                 );
               },
             ),
-          ],
-          title: transaction.title,
-          children: [
-            Text(
-              "Criada em: ${DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR').format(transaction.savedAt)}",
-            ),
-            const SizedBox(height: 30),
-            BlurredCard(
-              child: ListView(
-                shrinkWrap: true,
-                children: [
-                  attributeRow(
-                    context,
-                    preffix: "Conta: ",
-                    attribute: transaction.account,
-                  ),
-                  attributeRow(
-                    context,
-                    preffix: "Data da transação: ",
-                    attribute: DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR')
-                        .format(transaction.date),
-                  ),
-                  attributeRow(
-                    context,
-                    preffix: "Tipo de transação: ",
-                    attribute: transaction.isIncome ? "Receita" : "Despesa",
-                  ),
-                  attributeRow(
-                    context,
-                    preffix: "Valor: ",
-                    attribute:
-                        "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
-                  ),
-                  attributeRow(
-                    context,
-                    preffix: "Parcelas: ",
-                    attribute: transaction.isInstallment
-                        ? transaction.numberOfInstallments.toString()
-                        : "Parcela Única",
-                  ),
-                ],
+            actionButtons: [
+              BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
+                value: transactionDetailsBloc,
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const IconButton(
+                      icon: Icon(
+                        Icons.edit,
+                        size: 35,
+                      ),
+                      onPressed: null,
+                    );
+                  } else {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        size: 35,
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(30),
+                            ),
+                          ),
+                          builder: (context) => UserTransactionFormPage(
+                            originTransaction: transaction,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
-            ),
-          ],
+              const SizedBox(width: 15),
+              BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
+                value: transactionDetailsBloc,
+                builder: (context, state) {
+                  return IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                      size: 35,
+                    ),
+                    onPressed: state.isLoading
+                        ? null
+                        : () async {
+                            final bool? deleteTransaction =
+                                await showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return DeleteDialog(
+                                  transaction: transaction,
+                                  transactionDetailsBloc:
+                                      transactionDetailsBloc,
+                                );
+                              },
+                            );
+                            if (deleteTransaction != null &&
+                                deleteTransaction) {
+                              transactionDetailsBloc.add(
+                                DeleteTransaction(
+                                  transaction,
+                                ),
+                              );
+                            }
+                          },
+                  );
+                },
+              ),
+            ],
+            title: transaction.title,
+            children: [
+              Text(
+                "Criada em: ${DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR').format(transaction.savedAt)}",
+              ),
+              const SizedBox(height: 30),
+              BlurredCard(
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    attributeRow(
+                      context,
+                      preffix: "Conta: ",
+                      attribute: transaction.account,
+                    ),
+                    attributeRow(
+                      context,
+                      preffix: "Data da transação: ",
+                      attribute: DateFormat(DateFormat.YEAR_MONTH_DAY, 'pt-BR')
+                          .format(transaction.date),
+                    ),
+                    attributeRow(
+                      context,
+                      preffix: "Tipo de transação: ",
+                      attribute: transaction.isIncome ? "Receita" : "Despesa",
+                    ),
+                    attributeRow(
+                      context,
+                      preffix: "Valor: ",
+                      attribute:
+                          "R\$ ${transaction.price.toStringAsFixed(2).replaceAll(".", ",")}",
+                    ),
+                    attributeRow(
+                      context,
+                      preffix: "Parcelas: ",
+                      attribute: transaction.isInstallment
+                          ? transaction.numberOfInstallments.toString()
+                          : "Parcela Única",
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

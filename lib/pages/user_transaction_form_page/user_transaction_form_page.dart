@@ -4,6 +4,7 @@ import 'package:personal_expenses/blocs/transaction_form/transaction_form_bloc.d
 import 'package:personal_expenses/models/transaction.dart';
 import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
 import 'package:personal_expenses/pages/home_page/home_page.dart';
+import 'package:personal_expenses/pages/user_transaction_form_page/widgets/between_accounts_form.dart';
 import 'package:personal_expenses/pages/user_transaction_form_page/widgets/normal_form.dart';
 
 class UserTransactionFormPage extends StatefulWidget {
@@ -157,7 +158,10 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            NormalForm(),
+                            if (state.isNew || !state.isBetweenAccounts)
+                              NormalForm(),
+                            if (state.isNew || state.isBetweenAccounts)
+                              BetweenAccountsForm(),
                           ],
                         ),
                       );

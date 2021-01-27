@@ -6,24 +6,35 @@ import 'package:personal_expenses/pages/home_page/home_page.dart';
 class AccountListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return CommonScaffold(
-      leadingButton: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-            size: 35,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (_) => HomePage(),
           ),
-          onPressed: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => HomePage(),
-              ),
-              (route) => false,
-            );
-          }),
-      title: "Contas cadastradas",
-      children: [
-        Expanded(child: AccountList()),
-      ],
+          (route) => false,
+        );
+        return true;
+      },
+      child: CommonScaffold(
+        leadingButton: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 35,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => HomePage(),
+                ),
+                (route) => false,
+              );
+            }),
+        title: "Contas cadastradas",
+        children: [
+          Expanded(child: AccountList()),
+        ],
+      ),
     );
   }
 }

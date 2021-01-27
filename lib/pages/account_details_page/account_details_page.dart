@@ -37,59 +37,70 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
   Widget build(BuildContext context) {
     return BlocProvider<AccountDetailsPageBloc>(
       create: (_) => accountDetailsPageBloc,
-      child: CommonScaffold(
-        leadingButton: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 35,
+      child: WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (_) => AccountListPage(),
             ),
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => AccountListPage(),
-                ),
-                (route) => false,
-              );
-            }),
-        title: widget.account,
-        children: [
-          Expanded(
-            child: BlurredCard(
-              child:
-                  BlocBuilder<AccountDetailsPageBloc, AccountDetailsPageState>(
-                value: accountDetailsPageBloc,
-                builder: (context, state) {
-                  if (state is AccountDetailsPageLoadInProgress) {
-                    return CommonCircularIndicator();
-                  } else if (state is AccountDetailsPageLoadSuccess) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Hero(
-                          tag: widget.account,
-                          child: BalanceCard(
-                            totalBalance: state.balance,
-                            totalIncome: state.income,
-                            totalOutcome: state.outcome,
+            (route) => false,
+          );
+          return true;
+        },
+        child: CommonScaffold(
+          leadingButton: IconButton(
+              icon: const Icon(
+                Icons.arrow_back,
+                size: 35,
+              ),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (_) => AccountListPage(),
+                  ),
+                  (route) => false,
+                );
+              }),
+          title: widget.account,
+          children: [
+            Expanded(
+              child: BlurredCard(
+                child: BlocBuilder<AccountDetailsPageBloc,
+                    AccountDetailsPageState>(
+                  value: accountDetailsPageBloc,
+                  builder: (context, state) {
+                    if (state is AccountDetailsPageLoadInProgress) {
+                      return CommonCircularIndicator();
+                    } else if (state is AccountDetailsPageLoadSuccess) {
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Hero(
+                            tag: widget.account,
+                            child: BalanceCard(
+                              totalBalance: state.balance,
+                              totalIncome: state.income,
+                              totalOutcome: state.outcome,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        const Text("Transações cadastradas:"),
-                        const SizedBox(height: 10),
-                        AccountTransactionList(
-                          transactionList: state.transactionList,
-                          account: widget.account,
-                        ),
-                      ],
-                    );
-                  } else {
-                    return CommonErrorText();
-                  }
-                },
+                          const SizedBox(height: 20),
+                          const Text("Transações cadastradas:"),
+                          const SizedBox(height: 10),
+                          AccountTransactionList(
+                            transactionList: state.transactionList,
+                            account: widget.account,
+                          ),
+                        ],
+                      );
+                    } else {
+                      return CommonErrorText();
+                    }
+                  },
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

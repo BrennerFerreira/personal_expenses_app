@@ -20,15 +20,6 @@ class TransactionRepository {
     final Database dbTransaction = await helper.db;
     final List<Map<String, dynamic>> maps = await dbTransaction.query(
       TRANSACTION_TABLE,
-      columns: [
-        ID_COLUMN,
-        TITLE_COLUMN,
-        ACCOUNT_COLUMN,
-        DATE_COLUMN,
-        SAVED_AT_COLUMN,
-        IS_INCOME_COLUMN,
-        PRICE_COLUMN,
-      ],
       where: "$ID_COLUMN == ?",
       whereArgs: [id],
     );

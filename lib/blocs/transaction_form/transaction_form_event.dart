@@ -48,6 +48,17 @@ class EditAllInstallmentsChanged extends TransactionFormEvent {
       'EditAllInstallmentsChanged(newEditAllInstallments: $newEditAllInstallments)';
 }
 
+class IsBetweenAccountsChanged extends TransactionFormEvent {
+  final bool newOption;
+  const IsBetweenAccountsChanged({required this.newOption});
+
+  @override
+  List<Object?> get props => [newOption];
+
+  @override
+  String toString() => 'IsBetweenAccountsChanged(newOption: $newOption)';
+}
+
 class TitleChanged extends TransactionFormEvent {
   final String newTitle;
 
@@ -81,6 +92,30 @@ class AccountChanged extends TransactionFormEvent {
 
   @override
   String toString() => 'AccountChanged(newAccount: $newAccount)';
+}
+
+class DestinationNewAccountChanged extends TransactionFormEvent {
+  final bool newOption;
+  const DestinationNewAccountChanged({required this.newOption});
+
+  @override
+  List<Object?> get props => [newOption];
+
+  @override
+  String toString() => 'DestinationNewAccountChanged(newOption: $newOption)';
+}
+
+class DestinationAccountChanged extends TransactionFormEvent {
+  final String newDestinationAccount;
+
+  const DestinationAccountChanged({required this.newDestinationAccount});
+
+  @override
+  List<Object?> get props => [newDestinationAccount];
+
+  @override
+  String toString() =>
+      'DestinationAccountChanged(newDestinationAccount: $newDestinationAccount)';
 }
 
 class PriceChanged extends TransactionFormEvent {
