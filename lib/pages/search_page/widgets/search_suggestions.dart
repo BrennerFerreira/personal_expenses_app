@@ -32,7 +32,7 @@ class SearchSuggestions extends StatelessWidget {
                     ? const Center(
                         child: Text("Digite um termo de busca."),
                       )
-                    : query.length <= 3
+                    : query.length < 3
                         ? const Center(
                             child: Text("Digite um termo de busca maior."),
                           )

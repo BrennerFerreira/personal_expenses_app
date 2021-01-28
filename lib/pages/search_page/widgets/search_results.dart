@@ -36,7 +36,7 @@ class SearchResults extends StatelessWidget {
                   child: BlurredCard(
                     child: state.results.isEmpty
                         ? Center(
-                            child: query.length <= 3
+                            child: query.length < 3
                                 ? const Text("O termo procurado é muito curto.")
                                 : const Text("Nenhuma transação encontrada."),
                           )
@@ -51,7 +51,7 @@ class SearchResults extends StatelessWidget {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       builder: (_) => TransactionDetailsPage(
-                                        transaction: state.suggestions[index],
+                                        transaction: state.results[index],
                                         fromSearch: true,
                                         lastPage: MaterialPageRoute(
                                           builder: (_) => HomePage(),
@@ -61,7 +61,7 @@ class SearchResults extends StatelessWidget {
                                   );
                                 },
                                 child: UserTransactionTile(
-                                  transaction: state.suggestions[index],
+                                  transaction: state.results[index],
                                 ),
                               );
                             },

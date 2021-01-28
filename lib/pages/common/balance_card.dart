@@ -26,22 +26,11 @@ class BalanceCard extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    FontAwesomeIcons.wallet,
-                    size: 18,
-                    color: Theme.of(context).textTheme.bodyText2!.color,
-                  ),
-                  const SizedBox(width: 6),
-                  const Text(
-                    "Saldo atual:",
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+              const Text(
+                "Saldo com as transações agendadas:",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 6),
               Text(
