@@ -20,7 +20,7 @@ class HomePage extends StatelessWidget {
       title: "Início",
       leadingButton: Padding(
         padding: EdgeInsets.only(
-          left: MediaQuery.of(context).size.width * 0.02,
+          left: MediaQuery.of(context).size.width * 0.025,
         ),
         child: IconButton(
           icon: const Icon(Icons.search, size: 35),
@@ -81,7 +81,7 @@ class HomePage extends StatelessWidget {
         Center(
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.45,
-            width: MediaQuery.of(context).size.width * 0.9,
+            width: MediaQuery.of(context).size.width * 0.905,
             child: TransactionList(),
           ),
         ),
