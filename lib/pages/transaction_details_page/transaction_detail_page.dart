@@ -190,17 +190,15 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                                           state.originTransaction!
                                               .numberOfInstallments),
                                 ),
-                              if (!state.originTransaction!.isInstallment)
-                                attributeRow(
-                                  context,
-                                  preffix:
-                                      state.originTransaction!.isInstallment
-                                          ? "Valor da parcela: "
-                                          : "Valor: ",
-                                  attribute: NumberFormat.currency(
-                                          locale: 'pt-BR', symbol: "R\$")
-                                      .format(state.originTransaction!.price),
-                                ),
+                              attributeRow(
+                                context,
+                                preffix: state.originTransaction!.isInstallment
+                                    ? "Valor da parcela: "
+                                    : "Valor: ",
+                                attribute: NumberFormat.currency(
+                                        locale: 'pt-BR', symbol: "R\$")
+                                    .format(state.originTransaction!.price),
+                              ),
                               if (state.originTransaction!.isInstallment)
                                 attributeRow(
                                   context,

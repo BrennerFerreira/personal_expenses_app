@@ -39,6 +39,7 @@ class _HomeCardState extends State<HomeCard> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
+                      const SizedBox(height: 10),
                       const Text(
                         "Saldo atual:",
                         textAlign: TextAlign.center,
@@ -52,7 +53,6 @@ class _HomeCardState extends State<HomeCard> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
                       const Text(
                         "Saldo com as transações agendadas:",
                         textAlign: TextAlign.center,
@@ -65,14 +65,17 @@ class _HomeCardState extends State<HomeCard> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       if (state.lastTransaction != null)
                         const Text(
                           "Última transação realizada:",
                           textAlign: TextAlign.center,
                         ),
                       if (state.lastTransaction != null)
-                        UserTransactionTile(transaction: state.lastTransaction!)
+                        UserTransactionTile(
+                          transaction: state.lastTransaction!,
+                          isDense: true,
+                        )
                       else
                         const Text(
                           "Não há nenhuma transação realizada até o momento.",

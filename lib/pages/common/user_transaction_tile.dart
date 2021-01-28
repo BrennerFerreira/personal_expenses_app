@@ -5,14 +5,17 @@ import 'package:personal_expenses/models/transaction.dart';
 
 class UserTransactionTile extends StatelessWidget {
   final UserTransaction transaction;
+  final bool isDense;
   const UserTransactionTile({
     required this.transaction,
+    this.isDense = false,
   });
 
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return ListTile(
+      dense: isDense,
       leading: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

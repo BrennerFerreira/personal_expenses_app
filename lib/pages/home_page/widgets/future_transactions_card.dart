@@ -60,7 +60,7 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                                 "Transações agendadas:",
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -115,7 +115,7 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                                   ),
                                 ],
                               ),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 10),
                               if (state.nextTransaction != null)
                                 const Text(
                                   "Próxima transação agendada:",
@@ -123,7 +123,9 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
                                 ),
                               if (state.nextTransaction != null)
                                 UserTransactionTile(
-                                    transaction: state.nextTransaction!)
+                                  isDense: true,
+                                  transaction: state.nextTransaction!,
+                                )
                               else
                                 const Text(
                                   "Nenhuma transação agendada.",
