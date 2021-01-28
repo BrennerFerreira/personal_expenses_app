@@ -73,6 +73,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                   icon: const Icon(
                     Icons.arrow_back,
                     size: 35,
+                    semanticLabel: "Retornar para a tela anterior.",
                   ),
                   onPressed: state.isLoading
                       ? null
@@ -91,6 +92,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                       icon: Icon(
                         Icons.edit,
                         size: 35,
+                        semanticLabel: "Editar a transação.",
                       ),
                       onPressed: null,
                     )
@@ -99,6 +101,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                       icon: const Icon(
                         Icons.edit,
                         size: 35,
+                        semanticLabel: "Editar a transação.",
                       ),
                       onPressed: () {
                         showModalBottomSheet(
@@ -120,6 +123,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                     icon: const Icon(
                       Icons.delete,
                       size: 35,
+                      semanticLabel: "Excluir a transação.",
                     ),
                     onPressed: state.isLoading
                         ? null

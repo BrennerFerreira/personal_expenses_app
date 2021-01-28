@@ -5,6 +5,7 @@ class CommonCircularIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator.adaptive(
+        semanticsLabel: "Carregando.",
         valueColor: AlwaysStoppedAnimation(
           Theme.of(context).accentColor,
         ),

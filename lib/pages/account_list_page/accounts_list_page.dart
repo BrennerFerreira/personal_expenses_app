@@ -21,6 +21,7 @@ class AccountListPage extends StatelessWidget {
             icon: const Icon(
               Icons.arrow_back,
               size: 35,
+              semanticLabel: "Retornar para a tela anterior.",
             ),
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(

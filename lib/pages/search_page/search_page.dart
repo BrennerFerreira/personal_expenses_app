@@ -14,6 +14,7 @@ class Search extends SearchDelegate {
           icon: const Icon(
             Icons.close,
             size: 35,
+            semanticLabel: "Limpar pesquisa.",
           ),
           onPressed: query.isEmpty
               ? null
@@ -31,6 +32,7 @@ class Search extends SearchDelegate {
       icon: const Icon(
         Icons.arrow_back,
         size: 35,
+        semanticLabel: "Retornar para a tela anterior.",
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();

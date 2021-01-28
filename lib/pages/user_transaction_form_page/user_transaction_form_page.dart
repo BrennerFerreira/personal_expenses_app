@@ -87,6 +87,7 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
                           icon: const Icon(
                             Icons.close,
                             size: 35,
+                            semanticLabel: "Retornar para a página anterior.",
                           ),
                           onPressed: () {
                             BlocProvider.of<TransactionFormBloc>(context).add(
@@ -117,9 +118,12 @@ class _UserTransactionFormPageState extends State<UserTransactionFormPage> {
                           );
                         } else if (state is TransactionFormState) {
                           return IconButton(
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.check,
                               size: 35,
+                              semanticLabel: state.isNew
+                                  ? "Adicionar transação"
+                                  : "Confirmar edição da transação.",
                             ),
                             onPressed: () {
                               BlocProvider.of<TransactionFormBloc>(context)

@@ -52,6 +52,7 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
               icon: const Icon(
                 Icons.arrow_back,
                 size: 35,
+                semanticLabel: "Retornar para a tela anterior.",
               ),
               onPressed: () {
                 Navigator.of(context).pushAndRemoveUntil(
@@ -84,7 +85,9 @@ class _AccountDetailsPageState extends State<AccountDetailsPage> {
                             ),
                           ),
                           const SizedBox(height: 20),
-                          const Text("Transações cadastradas:"),
+                          const Text(
+                            "Transações cadastradas:",
+                          ),
                           const SizedBox(height: 10),
                           AccountTransactionList(
                             transactionList: state.transactionList,

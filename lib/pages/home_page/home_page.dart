@@ -23,7 +23,11 @@ class HomePage extends StatelessWidget {
           left: MediaQuery.of(context).size.width * 0.025,
         ),
         child: IconButton(
-          icon: const Icon(Icons.search, size: 35),
+          icon: const Icon(
+            Icons.search,
+            size: 35,
+            semanticLabel: "Pesquisar uma transação.",
+          ),
           onPressed: () {
             showSearch(
               context: context,
@@ -34,7 +38,11 @@ class HomePage extends StatelessWidget {
       ),
       actionButtons: [
         IconButton(
-          icon: const Icon(Icons.add, size: 35),
+          icon: const Icon(
+            Icons.add,
+            size: 35,
+            semanticLabel: "Adicionar uma transação.",
+          ),
           onPressed: () {
             showModalBottomSheet(
               context: context,
