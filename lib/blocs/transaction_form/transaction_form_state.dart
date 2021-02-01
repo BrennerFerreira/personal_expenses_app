@@ -2,7 +2,7 @@ part of 'transaction_form_bloc.dart';
 
 class TransactionFormState extends Equatable {
   final bool isLoading;
-  int? id;
+  final int? id;
   final bool isNew;
   final bool editAllInstallments;
   final String title;
@@ -15,6 +15,8 @@ class TransactionFormState extends Equatable {
   final bool isInstallments;
   final int numberOfInstallments;
   final String? installmentsId;
+  final DateTime? transactionDate;
+  final DateTime? firstTransactionDate;
   final bool isBetweenAccounts;
   final String? betweenAccountsId;
   final String destinationAccount;
@@ -41,6 +43,8 @@ class TransactionFormState extends Equatable {
     this.isInstallments = false,
     this.numberOfInstallments = 1,
     this.installmentsId,
+    this.transactionDate,
+    this.firstTransactionDate,
     this.isBetweenAccounts = false,
     this.betweenAccountsId,
     this.destinationAccount = "",
@@ -67,6 +71,8 @@ class TransactionFormState extends Equatable {
     double? price,
     bool? isIncome,
     DateTime? date,
+    DateTime? transactionDate,
+    DateTime? firstTransactionDate,
     bool? isInstallments,
     int? numberOfInstallments,
     String? installmentsId,
@@ -93,6 +99,8 @@ class TransactionFormState extends Equatable {
       price: price ?? this.price,
       isIncome: isIncome ?? this.isIncome,
       date: date ?? this.date,
+      transactionDate: transactionDate ?? this.transactionDate,
+      firstTransactionDate: firstTransactionDate ?? this.firstTransactionDate,
       isInstallments: isInstallments ?? this.isInstallments,
       numberOfInstallments: numberOfInstallments ?? this.numberOfInstallments,
       installmentsId: installmentsId ?? this.installmentsId,
@@ -129,6 +137,8 @@ class TransactionFormState extends Equatable {
         price,
         isIncome,
         date,
+        transactionDate,
+        firstTransactionDate,
         isInstallments,
         numberOfInstallments,
         installmentsId,

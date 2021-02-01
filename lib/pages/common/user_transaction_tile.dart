@@ -20,12 +20,18 @@ class UserTransactionTile extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            DateFormat(DateFormat.DAY, 'pt-BR').format(transaction.date),
+            isTransactionOverAYear(transaction)
+                ? DateFormat(DateFormat.ABBR_MONTH, 'pt-BR')
+                    .format(transaction.date)
+                    .toUpperCase()
+                : DateFormat(DateFormat.DAY, 'pt-BR').format(transaction.date),
           ),
           Text(
-            DateFormat(DateFormat.ABBR_MONTH, 'pt-BR')
-                .format(transaction.date)
-                .toUpperCase(),
+            isTransactionOverAYear(transaction)
+                ? DateFormat(DateFormat.YEAR, 'pt-BR').format(transaction.date)
+                : DateFormat(DateFormat.ABBR_MONTH, 'pt-BR')
+                    .format(transaction.date)
+                    .toUpperCase(),
           ),
         ],
       ),
@@ -55,5 +61,20 @@ class UserTransactionTile extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  bool isTransactionOverAYear(UserTransaction transaction) {
+    final DateTime aYearFromNow = DateTime(
+      DateTime.now().year + 1,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    final DateTime aYearAgo = DateTime(
+      DateTime.now().year - 1,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    return transaction.date.isAfter(aYearFromNow) ||
+        transaction.date.isBefore(aYearAgo);
   }
 }

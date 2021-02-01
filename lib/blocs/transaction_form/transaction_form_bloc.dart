@@ -56,6 +56,28 @@ class TransactionFormBloc
           destinationAccountList: destinationAccountList,
           price: outcome.price,
         );
+      } else if (event.transaction.isInstallment) {
+        final List<UserTransaction> transactions = await transactionRepository
+            .getTransactionByInstallmentId(event.transaction.installmentId!);
+        yield TransactionFormState(
+          isLoading: false,
+          accountList: accountList,
+          id: event.transaction.id,
+          isNew: false,
+          account: event.transaction.account,
+          title: event.transaction.title.replaceAll(
+            RegExp(r" - (\d+) de (\d+)$"),
+            "",
+          ),
+          price: event.transaction.price,
+          isIncome: event.transaction.isIncome,
+          date: event.transaction.date,
+          transactionDate: event.transaction.date,
+          firstTransactionDate: transactions[0].date,
+          isInstallments: event.transaction.isInstallment,
+          numberOfInstallments: event.transaction.numberOfInstallments,
+          installmentsId: event.transaction.installmentId,
+        );
       } else {
         yield TransactionFormState(
           isLoading: false,
@@ -76,9 +98,17 @@ class TransactionFormBloc
         );
       }
     } else if (event is EditAllInstallmentsChanged) {
-      yield state.copyWith(
-        editAllInstallments: event.newEditAllInstallments,
-      );
+      if (event.newEditAllInstallments) {
+        yield state.copyWith(
+          editAllInstallments: event.newEditAllInstallments,
+          date: state.firstTransactionDate,
+        );
+      } else {
+        yield state.copyWith(
+          editAllInstallments: event.newEditAllInstallments,
+          date: state.transactionDate,
+        );
+      }
     } else if (event is IsBetweenAccountsChanged) {
       yield state.copyWith(
         isBetweenAccounts: event.newOption,

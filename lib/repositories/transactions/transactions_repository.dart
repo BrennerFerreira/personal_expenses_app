@@ -51,6 +51,24 @@ class TransactionRepository {
     }
   }
 
+  Future<List<UserTransaction>> getTransactionByInstallmentId(
+      String installmentId) async {
+    final Database dbTransaction = await helper.db;
+    final List<Map<String, dynamic>> transactionsMap =
+        await dbTransaction.query(
+      TRANSACTION_TABLE,
+      where: "$INSTALLMENT_ID_COLUMN == ?",
+      whereArgs: [installmentId],
+      orderBy: "$DATE_COLUMN ASC",
+    );
+    final List<UserTransaction> transactions = [];
+
+    for (final Map<String, dynamic> map in transactionsMap) {
+      transactions.add(UserTransaction.fromMap(map));
+    }
+    return transactions;
+  }
+
   Future<Map<String, UserTransaction>> getBetweenAccountsTransaction(
       String betweenAccountsId) async {
     final Database dbTransaction = await helper.db;
