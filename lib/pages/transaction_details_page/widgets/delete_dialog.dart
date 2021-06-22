@@ -51,11 +51,11 @@ class DeleteDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => Navigator.of(context).pop(false),
           child: const Text("Cancelar"),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(true);
           },
