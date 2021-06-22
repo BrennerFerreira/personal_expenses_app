@@ -31,7 +31,7 @@ class DeleteDialog extends StatelessWidget {
           if (transaction.isInstallment) const SizedBox(height: 20),
           if (transaction.isInstallment)
             BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-              value: transactionDetailsBloc,
+              bloc: transactionDetailsBloc,
               builder: (context, state) {
                 return CheckboxListTile(
                   title:
@@ -51,11 +51,11 @@ class DeleteDialog extends StatelessWidget {
         ],
       ),
       actions: [
-        FlatButton(
+        TextButton(
           onPressed: () => Navigator.of(context).pop(false),
           child: const Text("Cancelar"),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () {
             Navigator.of(context).pop(true);
           },

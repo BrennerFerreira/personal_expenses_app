@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/date_range_page/date_range_page_bloc.dart';
+
+import '../../../blocs/date_range_page/date_range_page_bloc.dart';
 
 class DateRangeSelector extends StatelessWidget {
   final DateRangePageBloc dateRangePageBloc;
@@ -16,7 +17,7 @@ class DateRangeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return BlocBuilder<DateRangePageBloc, DateRangePageState>(
-      value: dateRangePageBloc,
+      bloc: dateRangePageBloc,
       builder: (context, state) {
         if (state is DateRangePageLoadSuccess) {
           return Column(
@@ -46,7 +47,12 @@ class DateRangeSelector extends StatelessWidget {
               const SizedBox(height: 20),
               Container(
                 alignment: Alignment.center,
-                child: RaisedButton(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    textStyle: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
                   onPressed: () async {
                     final DateTimeRange? dateRange = await showDateRangePicker(
                       context: context,
@@ -63,7 +69,6 @@ class DateRangeSelector extends StatelessWidget {
                       );
                     }
                   },
-                  textColor: Theme.of(context).primaryColor,
                   child: const Text("Selecione um período"),
                 ),
               ),

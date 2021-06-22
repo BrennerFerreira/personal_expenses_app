@@ -19,7 +19,7 @@ class CustomDropDownMenu extends StatelessWidget {
       ),
       child: BlocBuilder<FilteredTransactionsListBloc,
           FilteredTransactionsListState>(
-        value: bloc,
+        bloc: bloc,
         builder: (context, state) {
           if (state is FilteredTransactionsListLoadInProgress) {
             return DropdownButton(items: const []);

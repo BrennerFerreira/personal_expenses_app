@@ -13,7 +13,7 @@ class PageDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PageViewBloc, int>(
-      value: bloc,
+      bloc: bloc,
       builder: (context, state) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/pages/account_list_page/accounts_list_page.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
+
+import '../../../blocs/home_page/home_page_blocs.dart';
+import '../../account_list_page/accounts_list_page.dart';
+import '../../common/blurred_card.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
 
 class AccountsCard extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _AccountsCardState extends State<AccountsCard> {
             create: (context) => accountsCardBloc,
             child: Center(
               child: BlocBuilder<AccountsCardBloc, AccountsCardState>(
-                  value: accountsCardBloc,
+                  bloc: accountsCardBloc,
                   builder: (context, state) {
                     if (state is AccountsCardLoadInProgress) {
                       return CommonCircularIndicator();
