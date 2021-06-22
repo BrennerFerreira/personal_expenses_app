@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/pages/home_page/widgets/carousel_dot.dart';
+
+import '../../../blocs/home_page/home_page_blocs.dart';
+import 'carousel_dot.dart';
 
 class PageDots extends StatelessWidget {
   final PageViewBloc bloc;

@@ -1,6 +1,7 @@
-import 'package:personal_expenses/constants/transaction_table_constants.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+import '../constants/transaction_table_constants.dart';
 
 class TransactionHelper {
   static final TransactionHelper _instance = TransactionHelper.internal();
@@ -16,7 +17,7 @@ class TransactionHelper {
   }
 
   Future<Database> initDb() async {
-    final String databasePath = await getDatabasesPath() as String;
+    final String databasePath = await getDatabasesPath();
     final String path = join(databasePath, "personal_expenses_transactions.db");
 
     return openDatabase(

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/pages/search_page/search_page.dart';
-import 'package:personal_expenses/pages/common/common_scaffold.dart';
-import 'package:personal_expenses/pages/home_page/widgets/date_range_card.dart';
-import 'package:personal_expenses/pages/home_page/widgets/future_transactions_card.dart';
-import 'package:personal_expenses/pages/home_page/widgets/home_card.dart';
-import 'package:personal_expenses/pages/home_page/widgets/page_dots.dart';
-import 'package:personal_expenses/pages/home_page/widgets/transaction_list.dart';
-import 'package:personal_expenses/pages/home_page/widgets/accounts_card.dart';
-import 'package:personal_expenses/pages/user_transaction_form_page/user_transaction_form_page.dart';
+
+import '../../blocs/home_page/home_page_blocs.dart';
+import '../common/common_scaffold.dart';
+import '../search_page/search_page.dart';
+import '../user_transaction_form_page/user_transaction_form_page.dart';
+import 'widgets/accounts_card.dart';
+import 'widgets/date_range_card.dart';
+import 'widgets/future_transactions_card.dart';
+import 'widgets/home_card.dart';
+import 'widgets/page_dots.dart';
+import 'widgets/transaction_list.dart';
 
 class HomePage extends StatelessWidget {
   final pageViewBloc = PageViewBloc();

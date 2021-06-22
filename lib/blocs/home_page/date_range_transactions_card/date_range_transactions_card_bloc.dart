@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/repositories/transactions/global_stats_repository.dart';
+
+import '../../../repositories/transactions/global_stats_repository.dart';
 
 part 'date_range_transactions_card_event.dart';
 part 'date_range_transactions_card_state.dart';

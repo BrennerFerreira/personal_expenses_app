@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/pages/search_page/widgets/search_results.dart';
-import 'package:personal_expenses/pages/search_page/widgets/search_suggestions.dart';
+
+import 'widgets/search_results.dart';
+import 'widgets/search_suggestions.dart';
 
 class Search extends SearchDelegate {
   @override

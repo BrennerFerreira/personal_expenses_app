@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/repositories/account/account_repository.dart';
-import 'package:personal_expenses/repositories/account/account_stats_repository.dart';
+
+import '../../models/transaction.dart';
+import '../../repositories/account/account_repository.dart';
+import '../../repositories/account/account_stats_repository.dart';
 
 part 'account_details_page_event.dart';
 part 'account_details_page_state.dart';
@@ -25,9 +26,9 @@ class AccountDetailsPageBloc
 
       final Map<String, double> accountBalanceMap =
           await accountStatsRepository.accountBalance(event.account);
-      final double balance = accountBalanceMap["totalBalance"] as double;
-      final double income = accountBalanceMap["totalIncome"] as double;
-      final double outcome = accountBalanceMap["totalOutcome"] as double;
+      final double balance = accountBalanceMap["totalBalance"]!;
+      final double income = accountBalanceMap["totalIncome"]!;
+      final double outcome = accountBalanceMap["totalOutcome"]!;
 
       final List<UserTransaction> transactionList =
           await accountRepository.getAllTransactionsByAccount(event.account);

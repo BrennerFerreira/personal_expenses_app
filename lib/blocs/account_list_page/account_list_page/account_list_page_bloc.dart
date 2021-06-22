@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_expenses/repositories/account/account_repository.dart';
+
+import '../../../repositories/account/account_repository.dart';
 
 part 'account_list_page_event.dart';
 part 'account_list_page_state.dart';

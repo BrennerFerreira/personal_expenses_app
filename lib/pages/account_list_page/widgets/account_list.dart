@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/account_list_page/account_list_page/account_list_page_bloc.dart';
-import 'package:personal_expenses/pages/account_list_page/widgets/account_tile.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
+
+import '../../../blocs/account_list_page/account_list_page/account_list_page_bloc.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
+import 'account_tile.dart';
 
 class AccountList extends StatefulWidget {
   @override

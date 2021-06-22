@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
+
+import '../../../models/transaction.dart';
+import '../../common/user_transaction_tile.dart';
 
 class FutureTransactionsBalanceCard extends StatelessWidget {
   final double totalIncome;

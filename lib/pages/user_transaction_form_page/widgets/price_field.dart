@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/transaction_form/transaction_form_bloc.dart';
+
+import '../../../blocs/transaction_form/transaction_form_bloc.dart';
 
 class PriceField extends StatelessWidget {
   @override

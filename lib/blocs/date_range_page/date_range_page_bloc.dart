@@ -3,9 +3,10 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/repositories/transactions/global_stats_repository.dart';
-import 'package:personal_expenses/repositories/transactions/transactions_repository.dart';
+
+import '../../models/transaction.dart';
+import '../../repositories/transactions/global_stats_repository.dart';
+import '../../repositories/transactions/transactions_repository.dart';
 
 part 'date_range_page_event.dart';
 part 'date_range_page_state.dart';
