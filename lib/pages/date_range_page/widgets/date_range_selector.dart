@@ -17,7 +17,7 @@ class DateRangeSelector extends StatelessWidget {
   Widget build(BuildContext context) {
     initializeDateFormatting();
     return BlocBuilder<DateRangePageBloc, DateRangePageState>(
-      value: dateRangePageBloc,
+      bloc: dateRangePageBloc,
       builder: (context, state) {
         if (state is DateRangePageLoadSuccess) {
           return Column(

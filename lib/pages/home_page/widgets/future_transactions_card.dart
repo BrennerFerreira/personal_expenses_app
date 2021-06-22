@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/home_page/future_transactions_card/future_transactions_card_bloc.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
-import 'package:personal_expenses/pages/future_transactions_page/future_transactions_page.dart';
+
+import '../../../blocs/home_page/future_transactions_card/future_transactions_card_bloc.dart';
+import '../../common/blurred_card.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
+import '../../common/user_transaction_tile.dart';
+import '../../future_transactions_page/future_transactions_page.dart';
 
 class FutureTransactionsCard extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _FutureTransactionsCardState extends State<FutureTransactionsCard> {
             create: (context) => FutureTransactionsCardBloc(),
             child: BlocBuilder<FutureTransactionsCardBloc,
                 FutureTransactionsCardState>(
-              value: futureTransactionsCardBloc,
+              bloc: futureTransactionsCardBloc,
               builder: (context, state) {
                 if (state is FutureTransactionsCardLoadInProgress) {
                   return CommonCircularIndicator();

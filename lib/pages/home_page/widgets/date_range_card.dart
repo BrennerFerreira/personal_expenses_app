@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/date_range_page/date_range_page.dart';
+
+import '../../../blocs/home_page/home_page_blocs.dart';
+import '../../common/blurred_card.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
+import '../../date_range_page/date_range_page.dart';
 
 class DateRangeTransactionsCard extends StatefulWidget {
   @override
@@ -44,7 +45,7 @@ class _DateRangeTransactionsCardState extends State<DateRangeTransactionsCard> {
             create: (context) => DateRangeTransactionsCardBloc(),
             child: BlocBuilder<DateRangeTransactionsCardBloc,
                 DateRangeTransactionsCardState>(
-              value: dateRangeTransactionsCardBloc,
+              bloc: dateRangeTransactionsCardBloc,
               builder: (context, state) {
                 if (state is DateRangeTransactionsCardLoadInProgress) {
                   return CommonCircularIndicator();

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/transaction_details_page/transaction_details_page_bloc.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_scaffold.dart';
-import 'package:personal_expenses/pages/transaction_details_page/widgets/delete_dialog.dart';
-import 'package:personal_expenses/pages/user_transaction_form_page/user_transaction_form_page.dart';
+
+import '../../blocs/transaction_details_page/transaction_details_page_bloc.dart';
+import '../../models/transaction.dart';
+import '../common/blurred_card.dart';
+import '../common/common_circular_indicator.dart';
+import '../common/common_scaffold.dart';
+import '../user_transaction_form_page/user_transaction_form_page.dart';
+import 'widgets/delete_dialog.dart';
 
 class TransactionDetailsPage extends StatefulWidget {
   final UserTransaction transaction;
@@ -46,7 +47,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
     return BlocProvider(
       create: (context) => transactionDetailsBloc,
       child: BlocListener<TransactionDetailsBloc, TransactionDetailsState>(
-        value: transactionDetailsBloc,
+        bloc: transactionDetailsBloc,
         listener: (context, state) {
           if (state is TransactionDeleteSuccess) {
             Navigator.of(context).pushAndRemoveUntil(
@@ -66,7 +67,7 @@ class _TransactionDetailsPageState extends State<TransactionDetailsPage> {
                   return true;
                 },
           child: BlocBuilder<TransactionDetailsBloc, TransactionDetailsState>(
-            value: transactionDetailsBloc,
+            bloc: transactionDetailsBloc,
             builder: (context, state) {
               return CommonScaffold(
                 leadingButton: IconButton(

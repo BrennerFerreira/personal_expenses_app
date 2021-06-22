@@ -14,7 +14,7 @@ class CustomBlocObserver extends BlocObserver {
   }
 
   @override
-  void onError(Cubit cubit, Object error, StackTrace stackTrace) {
+  void onError(BlocBase cubit, Object error, StackTrace stackTrace) {
     print(error);
     super.onError(cubit, error, stackTrace);
   }

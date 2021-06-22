@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/account_list_page/account_tile/account_tile_bloc.dart';
-import 'package:personal_expenses/pages/account_details_page/account_details_page.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/common/balance_card.dart';
+
+import '../../../blocs/account_list_page/account_tile/account_tile_bloc.dart';
+import '../../account_details_page/account_details_page.dart';
+import '../../common/balance_card.dart';
+import '../../common/blurred_card.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
 
 class AccountTile extends StatefulWidget {
   final String account;
@@ -49,7 +50,7 @@ class _AccountTileState extends State<AccountTile> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   BlocBuilder<AccountTileBloc, AccountTileState>(
-                    value: accountTileBloc,
+                    bloc: accountTileBloc,
                     buildWhen: (previousState, currentState) {
                       return (currentState is AccountTileLoadSuccess) &&
                           currentState.account == widget.account;
