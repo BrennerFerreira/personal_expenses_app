@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/models/visibility_filter.dart';
+
+import '../../../blocs/home_page/home_page_blocs.dart';
+import '../../../models/visibility_filter.dart';
 
 class CustomDropDownMenu extends StatelessWidget {
   final FilteredTransactionsListBloc bloc;

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/pages/account_details_page/account_details_page.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
-import 'package:personal_expenses/pages/transaction_details_page/transaction_detail_page.dart';
+
+import '../../../models/transaction.dart';
+import '../../common/user_transaction_tile.dart';
+import '../../transaction_details_page/transaction_detail_page.dart';
+import '../account_details_page.dart';
 
 class AccountTransactionList extends StatelessWidget {
   final List<UserTransaction> transactionList;

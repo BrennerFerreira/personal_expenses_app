@@ -1,7 +1,8 @@
-import 'package:personal_expenses/constants/transaction_table_constants.dart';
-import 'package:personal_expenses/database/transaction_helper.dart';
-import 'package:personal_expenses/models/transaction.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../constants/transaction_table_constants.dart';
+import '../../database/transaction_helper.dart';
+import '../../models/transaction.dart';
 
 class FutureTransactionsRepository {
   final helper = TransactionHelper();

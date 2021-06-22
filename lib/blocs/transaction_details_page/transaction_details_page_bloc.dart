@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/repositories/transactions/transactions_repository.dart';
+
+import '../../models/transaction.dart';
+import '../../repositories/transactions/transactions_repository.dart';
 
 part 'transaction_details_page_event.dart';
 part 'transaction_details_page_state.dart';
@@ -26,10 +27,8 @@ class TransactionDetailsBloc
               await transactionRepository.getBetweenAccountsTransaction(
             event.transaction.betweenAccountsId!,
           );
-          final UserTransaction origin =
-              betweenAccountsMap['outcome'] as UserTransaction;
-          final UserTransaction destination =
-              betweenAccountsMap['income'] as UserTransaction;
+          final UserTransaction origin = betweenAccountsMap['outcome']!;
+          final UserTransaction destination = betweenAccountsMap['income']!;
           yield state.copyWith(
             isLoading: false,
             originTransaction: origin,

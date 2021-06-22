@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/pages/account_list_page/widgets/account_list.dart';
-import 'package:personal_expenses/pages/common/common_scaffold.dart';
-import 'package:personal_expenses/pages/home_page/home_page.dart';
+
+import '../common/common_scaffold.dart';
+import '../home_page/home_page.dart';
+import 'widgets/account_list.dart';
 
 class AccountListPage extends StatelessWidget {
   @override

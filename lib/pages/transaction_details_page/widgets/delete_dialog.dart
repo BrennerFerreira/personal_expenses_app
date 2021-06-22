@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/transaction_details_page/transaction_details_page_bloc.dart';
-import 'package:personal_expenses/models/transaction.dart';
+
+import '../../../blocs/transaction_details_page/transaction_details_page_bloc.dart';
+import '../../../models/transaction.dart';
 
 class DeleteDialog extends StatelessWidget {
   final UserTransaction transaction;

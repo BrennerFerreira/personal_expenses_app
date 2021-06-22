@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/repositories/transactions/transactions_repository.dart';
+
+import '../../models/transaction.dart';
+import '../../repositories/transactions/transactions_repository.dart';
 
 part 'search_page_event.dart';
 part 'search_page_state.dart';

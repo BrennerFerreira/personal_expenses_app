@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:personal_expenses/blocs/home_page/home_page_blocs.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
+
+import '../../../blocs/home_page/home_page_blocs.dart';
+import '../../common/blurred_card.dart';
+import '../../common/common_circular_indicator.dart';
+import '../../common/common_error_text.dart';
+import '../../common/user_transaction_tile.dart';
 
 class HomeCard extends StatefulWidget {
   @override

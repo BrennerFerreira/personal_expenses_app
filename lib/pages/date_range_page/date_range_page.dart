@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:personal_expenses/blocs/date_range_page/date_range_page_bloc.dart';
-import 'package:personal_expenses/pages/common/blurred_card.dart';
-import 'package:personal_expenses/pages/common/common_circular_indicator.dart';
-import 'package:personal_expenses/pages/common/common_error_text.dart';
-import 'package:personal_expenses/pages/common/common_scaffold.dart';
-import 'package:personal_expenses/pages/common/user_transaction_tile.dart';
-import 'package:personal_expenses/pages/date_range_page/widgets/date_range_balance_card.dart';
-import 'package:personal_expenses/pages/home_page/home_page.dart';
-import 'package:personal_expenses/pages/date_range_page/widgets/date_range_selector.dart';
-import 'package:personal_expenses/pages/transaction_details_page/transaction_detail_page.dart';
+
+import '../../blocs/date_range_page/date_range_page_bloc.dart';
+import '../common/blurred_card.dart';
+import '../common/common_circular_indicator.dart';
+import '../common/common_error_text.dart';
+import '../common/common_scaffold.dart';
+import '../common/user_transaction_tile.dart';
+import '../home_page/home_page.dart';
+import '../transaction_details_page/transaction_detail_page.dart';
+import 'widgets/date_range_balance_card.dart';
+import 'widgets/date_range_selector.dart';
 
 class DateRangePage extends StatefulWidget {
   @override

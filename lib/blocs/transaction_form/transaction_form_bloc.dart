@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:personal_expenses/models/transaction.dart';
-import 'package:personal_expenses/repositories/account/account_repository.dart';
-import 'package:personal_expenses/repositories/transactions/transactions_repository.dart';
+
+import '../../models/transaction.dart';
+import '../../repositories/account/account_repository.dart';
+import '../../repositories/transactions/transactions_repository.dart';
 
 part 'transaction_form_event.dart';
 part 'transaction_form_state.dart';
@@ -37,10 +38,8 @@ class TransactionFormBloc
             await transactionRepository.getBetweenAccountsTransaction(
           event.transaction.betweenAccountsId!,
         );
-        final UserTransaction income =
-            transactions['income'] as UserTransaction;
-        final UserTransaction outcome =
-            transactions['outcome'] as UserTransaction;
+        final UserTransaction income = transactions['income']!;
+        final UserTransaction outcome = transactions['outcome']!;
         final List<String> destinationAccountList = [...accountList]
           ..remove(outcome.account);
         yield TransactionFormState(

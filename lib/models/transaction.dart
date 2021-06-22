@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:personal_expenses/constants/transaction_table_constants.dart';
+import '../constants/transaction_table_constants.dart';
 
 class UserTransaction extends Equatable {
   int? id;
